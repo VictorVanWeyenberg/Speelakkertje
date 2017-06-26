@@ -28,7 +28,7 @@
     	<div class="x_content">
 
       <?php if(!empty($errors)): ?>
-          <span class="error" style="color: #BA383C;"> 
+          <span class="error" style="color: #BA383C;">
             registratie is mislukt! er zijn velden leeg!
             <?php if(!empty($errors['bestaatal'])) echo "<p class=\"error\" style=\"color: #BA383C;\">{$errors['bestaatal']}</p>";?>
             <?php //var_dump($_POST); ?>
@@ -122,7 +122,7 @@
                <label for="tel2" class="control-label col-md-3 col-sm-3 col-xs-12">Nood nummer</label>
                <div class="col-md-6 col-sm-6 col-xs-12">
                    <input id="tel2" name="tel2" class="form-control col-md-7 col-xs-12" type="text" placeholder="0477 47 52 09" value="<?php if (isset($_POST['tel2'])):  echo $_POST['tel2']; endif; ?>">
-                   
+
                </div>
              </div>
 
@@ -130,7 +130,7 @@
             <div class="form-group">
               <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                  <button class="btn btn-primary" type="reset">Reset</button>
-                 <input type="submit" class="btn btn-success" name="action_insert_parent" value="Doorgaan" class="form-submit" />   
+                 <input type="submit" class="btn btn-success" name="action_insert_parent" value="Doorgaan" class="form-submit" />
               </div>
             </div>
 
@@ -141,7 +141,8 @@
 
 	<?php endif; ?>
 	<?php if (isset($ouders)): ?>
-  
+		<?php var_dump($_POST) ?>
+
 
 	<div class="x_panel">
     	<div class="x_title">
@@ -156,25 +157,28 @@
     		<p> content van bestaand</p>
 
 			<p>zoekbalk voor ouders te zoeken</p>
+			<?php //var_dump($selectedParent) ?>
 			<form action="index.php?page=voegtoe&button=bestaand" method="POST">
 				<!-- <input type="text" name="parent" id="parent" placeholder="naam ouder" required >-->
-				<label for="parent"> ouder: 
-					<select name="parent" id="parent">
-						<option value="0">Kies ouder</option>
-						<?php foreach ($ouders as $ouder): ?>
-							<option value="<?php echo $ouder['user_id']; ?>" <?php if (isset($selectedParent)): if ($selectedParent["user_id"] == $ouder["user_id"]): echo "selected"; endif; endif; ?>><?php echo $ouder['familienaam'] ?> <?php echo $ouder['voornaam'] ?></option>
+				<label for="parents"> ouder: </label>
+				<input list="parents" name="parents" id="answerInput" />
+				<datalist id="parents">
+					<option data-value="0">Kies ouder</option>
+					<?php foreach ($ouders as $ouder): ?>
+						<option data-value="<?php echo $ouder['user_id'] ?>" value="<?php echo $ouder['familienaam'] ?> <?php echo $ouder['voornaam'] ?>" >
+							<?php echo $ouder['familienaam'] ?> <?php echo $ouder['voornaam'] ?>
+						</option>
+					<?php endforeach; ?>
+				</datalist>
 
-						<?php endforeach; ?>
-					</select>
-				</label>
-
-				<input type="submit" name="ouder">
-	    	  	<!--<button type="button" onclick="location.href='index.php?page=voegtoe&button=bestaand';" class="btn btn-round btn-default">Kind toevoegen van een bestande ouder</button>-->
-	    	</form>
+				<input type="hidden" name="parent" id="answerInput-hidden">
+				<!-- <input type="submit" name="ouder"> -->
+	    	<button type="submit" name="submitParent" formmethod="post" formaction="index.php?page=voegtoe&button=bestaand" class="btn btn-round btn-default">Voeg kind toe aan deze ouder!</button>
+				</form>
 
     	</div>
     </div>
-	
+
 		<?php if (isset($selectedParent)):?>
 
 	    <div class="x_panel">
@@ -188,10 +192,10 @@
 	    	<div class="x_content">
 
 				<?php if(!empty($errors)): ?>
-					<span class="error" style="color: #BA383C;"> 
+					<span class="error" style="color: #BA383C;">
 						registratie is mislukt! er zijn velden leeg!
 						<?php if(!empty($errors['bestaatal'])) echo "<p class=\"error\" style=\"color: #BA383C;\">{$errors['bestaatal']}</p>";?>
-						<?php //var_dump($_POST); ?>
+						<?php var_dump($_POST); ?>
 					</span>
 					<?php endif; ?>
                 <br />
@@ -276,17 +280,17 @@
                   <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
 					             <button class="btn btn-primary" type="reset">Reset</button>
-                       <input type="submit" class="btn btn-success" name="action" value="Opslaan" class="form-submit" />   
-			                 <input type="submit" class="btn btn-success" name="add" value="Opslaan en nog een kind toevoegen" class="form-submit" />  
+                       <input type="submit" class="btn btn-success" name="action" value="Opslaan" class="form-submit" />
+			                 <input type="submit" class="btn btn-success" name="add" value="Opslaan en nog een kind toevoegen" class="form-submit" />
 
                     </div>
                   </div>
 
                 </form>
             </div>
-
 	    </div>
 
 		<?php endif; ?>
 	<?php endif; ?>
 </section>
+<script type="text/javascript" src="js/datalist.js"></script>
