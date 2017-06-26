@@ -4,6 +4,7 @@ require_once WWW_ROOT . 'controller' . DS . 'Controller.php';
 
 require_once WWW_ROOT . 'dao' . DS . 'KinderenDAO.php';
 require_once WWW_ROOT . 'dao' . DS . 'OudersDAO.php';
+require_once WWW_ROOT . 'models' . DS . 'Ouder.php';
 
 
 class KinderenController extends Controller {
@@ -57,7 +58,6 @@ class KinderenController extends Controller {
 
 
 		/*
-		// voor resert password 4 user in wordpress,...
 		<?php
 			$user_id = 1;
 			$password = 'HelloWorld';
@@ -76,6 +76,13 @@ class KinderenController extends Controller {
 			}else if($button == 'bestaand'){
 
 				$ouders = $this->oudersDAO->selectAllNames();
+
+				// $ouderObjecten = array();
+				// foreach ($ouders as $ouder) {
+				// 	array_push($ouderObjecten, new Ouder($ouder['ID'], $ouder['user_id'], $ouder['voornaam'], $ouder['familienaam']));
+				// }
+				// //var_dump($ouderObjecten);
+
 				$this->set('ouders', $ouders);
 			}
 		}
@@ -131,15 +138,15 @@ class KinderenController extends Controller {
 
 		#region selected ouder
 		// als bestaande ouder is gekozen haal de juiste ouder uit het id
-			if (empty($_POST['parent']) && isset($_SESSION['ouder'])) { $_POST['parent'] = $_SESSION['ouder']; }
+			if (empty($_POST['parent']) && isset($_SESSION['ouder'])) { $_POST['parents'] = $_SESSION['ouder']; }
 			if (isset($_POST['parent']) && !empty($_POST['parent']) && $_POST['parent'] !== 0) {
 
 				//var_dump($_POST['parent']);
 				$newlySelectedParent = $this->oudersDAO->selectById($_POST['parent']);
 
-				//if (!isset($this->selectedParent) || $this->selectedParent != $newlySelectedParent) {
-					//$this->selectedParent = $newlySelectedParent;
-				//}
+				if (!isset($this->selectedParent) || $this->selectedParent != $newlySelectedParent) {
+					$this->selectedParent = $newlySelectedParent;
+				}
 
 				$_SESSION['ouder'] = $newlySelectedParent['user_id'];
 				//var_dump($_SESSION);
