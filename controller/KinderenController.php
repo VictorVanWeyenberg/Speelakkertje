@@ -143,6 +143,7 @@ class KinderenController extends Controller {
 
 				//var_dump($_POST['parent']);
 				$newlySelectedParent = $this->oudersDAO->selectById($_POST['parent']);
+				var_dump($newlySelectedParent);
 
 				if (!isset($this->selectedParent) || $this->selectedParent != $newlySelectedParent) {
 					$this->selectedParent = $newlySelectedParent;
