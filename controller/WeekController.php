@@ -15,23 +15,23 @@ class WeekController extends Controller {
 
 	public function week() {
 
-		if (isset($_GET["dag"]))  { $dag  = $_GET['dag']; }
-		if (isset($_GET["id"]))   { $week = $_GET['id'];  }
-		if (isset($_GET["jaar"])) { $jaar = $_GET['jaar'];}
+		$pageNumber = 1;
+		if(isset($_GET["pageNumber"])) {
+			$pageNumber = $_GET["pageNumber"];
+		}
 
-		if(isset($_POST["aanwezigheid"])) {
+		if(isset($_POST["dagtype"])) {
 			$data = array();
 			$data["kind_id"] = $_POST["id"];
 			$data["dagtype"] = $_POST["dagtype"];
 			$data["dag"] = $_POST["dag"];
-			$data["week"] = $_GET["id"];
+			$data["week"] = $_POST["week"];
 			$data["jaar"] = $_POST["jaar"];
-			$data["registratiedatum"] = date();
-			$this->kinderenDAO->insert($data);
-			$this->redirect("index.php?page=week&id=" . $_GET["id"]);
+			$data["registratiedatum"] = date("Y-m-d H:i:s");
+			$inserted = $this->kinderenDAO->insertAanwezig($data);
 		}
-		if (isset($_GET["id"]) && isset($_POST["dag"]) && isset($_POST["jaar"])) {
-			if ($_GET["id"] < 1 || $_GET["id"] > 5) {
+		if (isset($_POST["week"]) && isset($_POST["dag"]) && isset($_POST["jaar"])) {
+			if ($_POST["week"] < 1 || $_POST["week"] > 5) {
 				$_SESSION["error"] = "Week ID out of bounds.";
 				$this->redirect("index.php");
 				exit();
@@ -41,16 +41,8 @@ class WeekController extends Controller {
 				$this->redirect("index.php");
 				exit();
 			}
-			$this->set("aanwezigheden", $this->kinderenDAO->getAanwezighedenVanWeek($_POST["dag"], $_GET["id"], $_POST["jaar"]));
-			$this->set("aantalAanwezigheden", $this->kinderenDAO->getAantalAanwezighedenVanWeek($_GET["id"], $_POST["jaar"]));
-		} else if (isset($_GET["id"])) {
-			if ($_GET["id"] < 1 || $_GET["id"] > 5) {
-				$_SESSION["error"] = "Week ID out of bounds.";
-				$this->redirect("index.php");
-				exit();
-			}
-			$this->set("aanwezigheden", $this->kinderenDAO->getAanwezighedenVanWeek(strval(date("N")), $_GET["id"], strval(date("Y"))));
-			$this->set("aantalAanwezigheden", $this->kinderenDAO->getAantalAanwezighedenVanWeek($_GET["id"], strval(date("Y"))));
+			$this->set("aanwezigheden", $this->kinderenDAO->getAanwezighedenVanWeek($_POST["dag"], $_POST["week"], $_POST["jaar"], $_POST["filter"], $pageNumber));
+			$this->set("aantalAanwezigheden", $this->kinderenDAO->getAantalAanwezighedenVanWeek($_POST["week"], $_POST["jaar"], $pageNumber));
 		}
 	}
 

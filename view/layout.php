@@ -107,11 +107,7 @@ if (isset($_COOKIE['user_tHg4*t?Vrs@3K6#5J4']) && !empty($_COOKIE['user_tHg4*t?V
 
                   <li><a><i class="fa fa-edit"></i> weken <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="index.php?page=week&id=1">week 1</a></li>
-                      <li><a href="index.php?page=week&id=2">week 2</a></li>
-                      <li><a href="index.php?page=week&id=3">week 3</a></li>
-                      <li><a href="index.php?page=week&id=4">week 4</a></li>
-                      <li><a href="index.php?page=week&id=5">week 5</a></li>
+                      <li><a href="index.php?page=week">Aanwezigheidslijst</a></li>
                       <li><a href="index.php?page=weken&jaar=<?php echo date("Y"); ?>">Totaal Overzicht</a></li>
                     </ul>
                   </li>                  

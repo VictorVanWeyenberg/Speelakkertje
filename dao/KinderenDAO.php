@@ -27,6 +27,14 @@ class KinderenDAO extends DAO {
 		FROM Employees
 	*/
 	
+	public function selectAanwezigheidById($id) {
+		$sql = "SELECT * FROM wp_aanwezig WHERE id = :id";
+		$stmt = $this->pdo->prepare($sql);
+		$stmt->bindValue(':id', $id);
+		$stmt->execute();
+		return $stmt->fetch(PDO::FETCH_ASSOC);
+	}
+	
 	public function selectChildByName($voornaam, $achternaam) {
 		$sql = "SELECT * FROM wp_kinderen WHERE voornaam = :voornaam AND achternaam = :achternaam";
 		$stmt = $this->pdo->prepare($sql);
@@ -48,21 +56,29 @@ class KinderenDAO extends DAO {
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-	public function getAanwezighedenVanWeek($dag, $week, $jaar) {
+	public function getAanwezighedenVanWeek($dag, $week, $jaar, $filter, $pageNumber) {
 		$sql = "SELECT wp_kinderen.ID, wp_kinderen.voornaam, wp_kinderen.achternaam, GROUP_CONCAT(wp_aanwezig.dagtype) as dagtypes, COUNT(CASE wp_aanwezig.dagtype WHEN 'VM' THEN 1 WHEN 'NM' THEN 1 END) as halvedagen_aanwezig, COUNT(CASE wp_aanwezig.dagtype WHEN 'VD' THEN 1 END) as volledagen_aanwezig 
 			FROM wp_kinderen 
 			LEFT JOIN wp_aanwezig ON wp_kinderen.ID = wp_aanwezig.kind_id 
-			WHERE (wp_aanwezig.dag = :dag OR wp_aanwezig.dag IS NULL) AND (wp_aanwezig.week = :week OR wp_aanwezig.week IS NULL) AND (wp_aanwezig.jaar = :jaar OR wp_aanwezig.jaar IS NULL) 
-			GROUP BY wp_kinderen.ID";
+			WHERE (wp_aanwezig.dag = :dag OR wp_aanwezig.dag IS NULL) AND (wp_aanwezig.week = :week OR wp_aanwezig.week IS NULL) AND (wp_aanwezig.jaar = :jaar OR wp_aanwezig.jaar IS NULL) ";
+		if ($filter != "") {
+			$sql .= "AND wp_kinderen.voornaam LIKE :filter ";
+		}
+		$sql .= "GROUP BY wp_kinderen.ID 
+		LIMIT :pageNumber, 30";
 		$stmt = $this->pdo->prepare($sql);
 		$stmt->bindValue(":dag", $dag);
 		$stmt->bindValue(":week", $week);
 		$stmt->bindValue(":jaar", $jaar);
+		if ($filter != "") {
+			$stmt->bindValue(":filter", "%" . $filter . "%");
+		}
+		$stmt->bindValue(":pageNumber", ($pageNumber - 1) * 30);
 		$stmt->execute();
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-	public function getAantalAanwezighedenVanWeek($week, $jaar) {
+	public function getAantalAanwezighedenVanWeek($week, $jaar, $pageNumber) {
 		$sql = "SELECT wp_kinderen.ID, COUNT(CASE wp_aanwezig.dagtype WHEN 'VM' THEN 1 WHEN 'NM' THEN 1 END) as halvedagen_aanwezig, COUNT(CASE wp_aanwezig.dagtype WHEN 'VD' THEN 1 END) as volledagen_aanwezig 
 			FROM wp_kinderen 
 			LEFT JOIN wp_aanwezig ON wp_kinderen.ID = wp_aanwezig.kind_id 
@@ -101,12 +117,13 @@ class KinderenDAO extends DAO {
 				return $this->selectById($insertedId);
 			}
 		}
+		var_dump($errors);
 		return false;
 	}
 
 	public function insertAanwezig($data) {
-		$sql = "INSERT INTO `wp_aanwezig` (`kind_id`,`dagtype`,`dag`,`week`,`jaar`,`registratiedatum) 
-					VALUES 			      (:kind_id, :dagtype, :dag, :week, :jaar, :registratiedatum";
+		$sql = "INSERT INTO `wp_aanwezig` (`kind_id`,`dagtype`,`dag`,`week`,`jaar`,`registratiedatum`) 
+					VALUES 			      (:kind_id, :dagtype, :dag, :week, :jaar, :registratiedatum)";
 		$stmt = $this->pdo->prepare($sql);
 		$stmt->bindValue(':kind_id', $data['kind_id']);
 		$stmt->bindValue(':dagtype', $data['dagtype']);
@@ -115,9 +132,8 @@ class KinderenDAO extends DAO {
 		$stmt->bindValue(':jaar', $data['jaar']);
 		$stmt->bindValue(':registratiedatum', $data['registratiedatum']);
 		if($stmt->execute()) {
-			
 			$insertedId = $this->pdo->lastInsertId();
-			return $this->selectById($insertedId);
+			return $this->selectAanwezigheidById($insertedId);
 		}
 		return false;
 	}
