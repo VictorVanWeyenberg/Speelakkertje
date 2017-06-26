@@ -141,8 +141,6 @@
 
 	<?php endif; ?>
 	<?php if (isset($ouders)): ?>
-		<?php var_dump($_POST) ?>
-
 
 	<div class="x_panel">
     	<div class="x_title">

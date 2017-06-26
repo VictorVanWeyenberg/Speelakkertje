@@ -4,7 +4,6 @@ require_once WWW_ROOT . 'controller' . DS . 'Controller.php';
 
 require_once WWW_ROOT . 'dao' . DS . 'KinderenDAO.php';
 require_once WWW_ROOT . 'dao' . DS . 'OudersDAO.php';
-require_once WWW_ROOT . 'models' . DS . 'Ouder.php';
 
 
 class KinderenController extends Controller {
@@ -76,13 +75,6 @@ class KinderenController extends Controller {
 			}else if($button == 'bestaand'){
 
 				$ouders = $this->oudersDAO->selectAllNames();
-
-				// $ouderObjecten = array();
-				// foreach ($ouders as $ouder) {
-				// 	array_push($ouderObjecten, new Ouder($ouder['ID'], $ouder['user_id'], $ouder['voornaam'], $ouder['familienaam']));
-				// }
-				// //var_dump($ouderObjecten);
-
 				$this->set('ouders', $ouders);
 			}
 		}
@@ -339,16 +331,16 @@ class KinderenController extends Controller {
 				//["action"]=> string(7) "Opslaan"
 				// toevoegen en alles legen ook ouder
 				unset($_SESSION['ouder']);
-				//$this->redirect('index.php?page=voegtoe');
+				$this->redirect('index.php?page=voegtoe');
 			}else if(isset($_POST['add'])){
 
 				//["add"]
 				//toevoegen en niet ouder legen
-				//$this->redirect('index.php?page=voegtoe&button=bestaand');
+				$this->redirect('index.php?page=voegtoe&button=bestaand');
 			} else{
 
 				unset($_SESSION['ouder']);
-				//$this->redirect('index.php?page=voegtoe');
+				$this->redirect('index.php?page=voegtoe');
 			}
 		} else {
 			$errors = $this->kinderenDAO->getValidationErrors($kind);
