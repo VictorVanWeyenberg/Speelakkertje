@@ -285,8 +285,8 @@ class KinderenController extends Controller {
 				}
 
 				if (empty($errors)) {
-					print_r(" geslaagd");
-					//$this->_handleUpdateParent($_POST);
+					// print_r(" geslaagd");
+					$this->_handleUpdateParent($_POST);
 				}else{
 					print_r("niet geslaagd");
 					var_dump($errors);
@@ -383,6 +383,58 @@ class KinderenController extends Controller {
 			$this->set('errors', $errors);
 			//var_dump($insert_user);
 		}
+
+	}
+
+	private function _handleUpdateParent($post) {
+
+		$user = array(
+			'ID' => $post['user_id'],
+			'user_login' => $post['email'],
+			'user_nicename' => $post['email'],
+			'user_email' => $post['email'],
+			'display_name' => $post['voornaam']." ".$post['familienaam']
+		);
+
+			if ($post["functie"] == "p") {
+			$post['geslacht'] = "m";
+			}else{
+				$post['geslacht'] = "v";
+			}
+
+			$ouder = array(
+				'ID' => $post['PARENT_ID'],
+				'voornaam' => $post['voornaam'],
+				'familienaam' => $post['familienaam'],
+				'functie' => $post['functie'],
+				'geslacht' => $post['geslacht'],
+				'tel1' => $post['tel1'],
+				'tel2' => $post['tel2'],
+				'email' => $post['email'],
+				'adres' => $post['adres'],
+				'postcode' => $post['postcode'],
+				'stad' => $post['stad'],
+				'updatedatum' => date("Y-m-d H:i:s")
+			);
+
+			// var_dump("gelukt");
+			// var_dump($post);
+
+			// USER ID ???? HOE WAAR HUH ??? NOG DOEN!!!!
+
+			 $inserted_user = $this->oudersDAO->UpdateUser($user);
+			 $insert_ouder = $this->oudersDAO->Updated_ouder($ouder);
+			//var_dump($insert_ouder);
+			if(!empty($insert_ouder && !empty($insert_ouder))) {
+
+				$_SESSION['info'] = 'Toevoegen van '. $post['voornaam']. " ". $post['familienaam'].' is gelukt!';
+				$_SESSION['ouder'] = $insert_ouder['user_id'];
+				//var_dump($insert_ouder);
+				$this->redirect('index.php?page=kinderen');
+			} else {
+				$errors = $this->oudersDAO->getValidationErrorsParent($ouder);
+				$this->set('errors', $errors);
+			}
 
 	}
 

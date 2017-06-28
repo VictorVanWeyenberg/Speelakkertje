@@ -178,6 +178,26 @@
 
 					<form method="POST" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 
+						<div class="form-group" hidden>
+							 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PARENT_ID">PARENT_ID<span class="required">*</span>
+							 </label>
+							 <div class="col-md-6 col-sm-6 col-xs-12">
+								 <input type="text" id="PARENT_ID" name="PARENT_ID" placeholder="speelplein@speelakkertje.be" required="required" class="form-control col-md-7 col-xs-12" value="<?php if (isset($_POST['PARENT_ID']) && !empty($_POST['PARENT_ID'])):  echo $_POST['PARENT_ID']; endif; ?>" >
+								 <span class="error" style="color: #BA383C;"><?php if(!empty($errors['PARENT_ID'])) echo "<p class=\"error\" style=\"color: #BA383C;\">{$errors['PARENT_ID']}</p>";?></span>
+
+							 </div>
+						 </div>
+
+						 <div class="form-group" hidden>
+ 							 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="user_id">user_id<span class="required">*</span>
+ 							 </label>
+ 							 <div class="col-md-6 col-sm-6 col-xs-12">
+ 								 <input type="text" id="user_id" name="user_id" placeholder="speelplein@speelakkertje.be" required="required" class="form-control col-md-7 col-xs-12" value="<?php if (isset($_POST['user_id']) && !empty($_POST['user_id'])):  echo $_POST['user_id']; endif; ?>" >
+ 								 <span class="error" style="color: #BA383C;"><?php if(!empty($errors['user_id'])) echo "<p class=\"error\" style=\"color: #BA383C;\">{$errors['user_id']}</p>";?></span>
+
+ 							 </div>
+ 						 </div>
+
 						<div class="form-group">
 							 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">E-mail adres<span class="required">*</span>
 							 </label>
