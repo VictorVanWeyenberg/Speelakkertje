@@ -213,6 +213,92 @@ class KinderenController extends Controller {
 		$this->set('ouder', $ouder);
 		$this->set('kind', $kind);
 
+		if (!empty($_POST)):
+			if ( isset($_POST["action_update_child"]) && $_POST["action_update_child"] == "Kind Opslaan" ):
+
+				if(empty($_POST['naam'])) {
+					$errors['naam'] = 'U hebt het kind zijn of haar naam niet ingevuld.';
+				}
+				if(empty($_POST['achternaam'])) {
+					$errors['achternaam'] = 'U hebt het kind zijn of haar familienaam niet ingevuld.';
+				}
+				if(empty($_POST['geslacht'])) {
+					$errors['geslacht'] = 'U hebt het kind zijn of haar geslacht niet ingevuld.';
+				}
+				if(empty($_POST['geboortedatum'])) {
+					$errors['geboortedatum'] = 'U hebt het kind zijn of haar geboortedatum niet ingevuld.';
+				}
+				if(!isset($_POST['actief'])) {
+					$errors['actief'] = 'U hebt niet ingevuld of het kind dit jaar komt naar het speelplein.';
+				}
+				if(empty($_POST['medische'])) {
+					$errors['medische'] = 'U hebt niet ingevuld of het kind dit jaar komt naar het speelplein.';
+				}
+				if (empty($errors)) {
+
+					$this->_handleUpdateChild($_POST);
+				}else{
+					var_dump($errors);
+					var_dump($_POST);
+
+					$this->set('errors', $errors);
+				}
+
+
+
+
+			endif;
+			if ( isset($_POST["action_update_parent"]) && $_POST["action_update_parent"] == "Ouder Opslaan" ):
+
+
+
+				$bestaandEmail = $this->oudersDAO->selectAllEmails();
+				if ($this->in_multiarray($_POST['email'], $bestaandEmail, 'email') && $_POST['email'] !== $ouder['email']){
+					$errors['email'] = ' Email bestaat al!';
+				}
+				if(empty($_POST['email'])) {
+					$errors['email'] = ' Email is niet ingevuld.';
+				}
+				if(empty($_POST['voornaam'])) {
+					$errors['voornaam'] = ' Voornaam is niet ingevuld.';
+				}
+				if(empty($_POST['familienaam'])) {
+					$errors['familienaam'] = ' Familienaam is niet ingevuld.';
+				}
+				if(empty($_POST['functie'])) {
+					$errors['functie'] = ' Functie is niet ingevuld.';
+				}
+				if(empty($_POST['adres'])) {
+					$errors['adres'] = ' Adres is niet ingevuld.';
+				}
+				if(empty($_POST['postcode'])) {
+					$errors['postcode'] = ' Postcode is niet ingevuld.';
+				}
+				if(empty($_POST['stad'])) {
+					$errors['stad'] = ' Stad is niet ingevuld.';
+				}
+				if(empty($_POST['tel1'])) {
+					$errors['tel1'] = ' Telefoon nummer is niet ingevuld.';
+				}
+				if(empty($_POST['tel2'])) {
+					$_POST['tel2'] = $_POST['tel1'];
+				}
+
+				if (empty($errors)) {
+					print_r(" geslaagd");
+					//$this->_handleUpdateParent($_POST);
+				}else{
+					print_r("niet geslaagd");
+					var_dump($errors);
+					$this->set('errors', $errors);
+				}
+
+
+
+
+			endif;
+
+		endif;
 
 	}
 
@@ -347,10 +433,35 @@ class KinderenController extends Controller {
 			$this->set('errors', $errors);
 		}
 	}
+	private function _handleUpdateChild($post) {
 
+				//user_id`,`ouder_id`,`voornaam`,`achternaam`,geslacht,`geboortedatum`,`alleen_naar_huis`,`medische`,`notitie`,`actief`,`registratiedatum
+		$bday = str_replace("/","-", $post['geboortedatum']);
+		$kind = array(
+			'ID' => $post['ID'],
+			'voornaam' => $post['naam'],
+			'achternaam' => $post['achternaam'],
+			'geslacht' => $post['geslacht'],
+			'geboortedatum' => $bday,
+			'alleen_naar_huis' => 0,
+			'medische' => $post['medische'],
+			'notities' => $post['notities'],
+			'actief' => $post['actief'],
+			'updatedatum' => date("Y-m-d H:i:s")
+		);
 
+		$insert = $this->kinderenDAO->update($kind);
+		//$insert = "good";
+		//var_dump($post);
+		if(!empty($insert)) {
 
+			$_SESSION['info'] = 'Bijwerken van '. $post['naam']. " ". $post['achternaam'].' gelukt!';
+			$this->redirect('index.php?page=kinderen');
 
-
+		} else {
+			$errors = $this->kinderenDAO->getValidationErrors($kind);
+			$this->set('errors', $errors);
+		}
+	}
 
 }

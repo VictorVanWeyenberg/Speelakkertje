@@ -193,7 +193,6 @@
 					<span class="error" style="color: #BA383C;">
 						registratie is mislukt! er zijn velden leeg!
 						<?php if(!empty($errors['bestaatal'])) echo "<p class=\"error\" style=\"color: #BA383C;\">{$errors['bestaatal']}</p>";?>
-						<?php var_dump($_POST); ?>
 					</span>
 					<?php endif; ?>
                 <br />

@@ -7,15 +7,11 @@ define('WWW_ROOT', __DIR__ . DS);
 
 $routes = array(
 
-    
+
     'home' => array(
         'controller' => 'dashboard',
-        'action' => 'index'
+        'action' => 'dashboard'
     ),
-        'dashboard' => array(
-            'controller' => 'dashboard',
-            'action' => 'dashboard'
-        ),
         'login' => array(
             'controller' => 'dashboard',
             'action' => 'login'
@@ -41,6 +37,10 @@ $routes = array(
             'controller' => 'Week',
             'action' => 'weken'
         ),
+        'fiscaal' => array(
+           'controller' => 'kinderen',
+           'action' => 'fiscaal'
+        ),
 
     'kinderen' => array(
        'controller' => 'kinderen',
@@ -56,7 +56,6 @@ $routes = array(
         ),
 
 
-
     'old_home' => array(
         'controller' => 'Staf',
         'action' => 'index'
@@ -69,7 +68,7 @@ $routes = array(
             'controller' => 'Staf',
             'action' => 'add'
         )
-    
+
 );
 
 if(empty($_GET['page'])) {

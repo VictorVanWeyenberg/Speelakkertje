@@ -1,4 +1,4 @@
-
+if(window.location.href.indexOf("bestaand") > -1) {
   document.querySelector('input[list]').addEventListener('input', function(e) {
     var input = e.target,
         list = input.getAttribute('list'),
@@ -18,3 +18,4 @@
         }
     }
   });
+  }
