@@ -26,7 +26,7 @@ function initCheckboxListeners(form) {
 	var elements = form.elements;
 	[].forEach.call(elements, function(element) {
 		if (element.type == "checkbox") {
-			//element.addEventListener("change", function(e) { checkboxHandler(e); });
+			element.addEventListener("change", function(e) { checkboxHandler(e); });
 		}
 	})
 }
