@@ -174,21 +174,47 @@ class KinderenDAO extends DAO {
 		return false;
 	}
 
-	public function insertAanwezig($data) {
-		$sql = "INSERT INTO `wp_aanwezig` (`kind_id`,`dagtype`,`dag`,`week`,`jaar`,`registratiedatum`)
-					VALUES 			      (:kind_id, :dagtype, :dag, :week, :jaar, :registratiedatum)";
+	private function selectAanwezigByData($data) {
+		$sql = "SELECT `ID` FROM `wp_aanwezig` WHERE `kind_id` = :kind_id AND `dag` = :dag AND `week` = :week AND `jaar` = :jaar AND `dagtype` = :dagtype";
 		$stmt = $this->pdo->prepare($sql);
 		$stmt->bindValue(':kind_id', $data['kind_id']);
-		$stmt->bindValue(':dagtype', $data['dagtype']);
 		$stmt->bindValue(':dag', $data['dag']);
 		$stmt->bindValue(':week', $data['week']);
 		$stmt->bindValue(':jaar', $data['jaar']);
-		$stmt->bindValue(':registratiedatum', $data['registratiedatum']);
-		if($stmt->execute()) {
-			$insertedId = $this->pdo->lastInsertId();
-			return $this->selectAanwezigheidById($insertedId);
+		$stmt->bindValue(':dagtype', $data['dagtype']);
+		$stmt->execute();
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public function insertAanwezig($data) {
+		if (empty($this->selectAanwezigByData($data))) {
+			$sql = "INSERT INTO `wp_aanwezig` (`kind_id`,`dagtype`,`dag`,`week`,`jaar`,`registratiedatum`)
+						VALUES 			      (:kind_id, :dagtype, :dag, :week, :jaar, :registratiedatum)";
+			$stmt = $this->pdo->prepare($sql);
+			$stmt->bindValue(':kind_id', $data['kind_id']);
+			$stmt->bindValue(':dagtype', $data['dagtype']);
+			$stmt->bindValue(':dag', $data['dag']);
+			$stmt->bindValue(':week', $data['week']);
+			$stmt->bindValue(':jaar', $data['jaar']);
+			$stmt->bindValue(':registratiedatum', $data['registratiedatum']);
+			if($stmt->execute()) {
+				$insertedId = $this->pdo->lastInsertId();
+				return $this->selectAanwezigheidById($insertedId);
+			}
 		}
 		return false;
+	}
+
+	public function removeAanwezig($data) {
+		$sql = "DELETE 
+			FROM `wp_aanwezig` 
+			WHERE `kind_id` = :kind_id AND `dag` = :dag AND `week` = :week AND `jaar` = :jaar";
+		$stmt = $this->pdo->prepare($sql);
+		$stmt->bindValue(':kind_id', $data['kind_id']);
+		$stmt->bindValue(':dag', $data['dag']);
+		$stmt->bindValue(':week', $data['week']);
+		$stmt->bindValue(':jaar', $data['jaar']);
+		return $stmt->execute();
 	}
 
 	public function getValidationErrors($data) {

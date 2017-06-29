@@ -23,7 +23,7 @@
 			</select>
 		</label>
 		<input type="text" name="filter" id="filter" value="<?php if (isset($_POST['filter'])): echo $_POST['filter']; endif; ?>" />
-		<input type="submit">
+		<!-- <input type="submit"> -->
 	</form>
 	<?php if (isset($aanwezigheden) && isset($aantalAanwezigheden)): ?>
 	<table id="aanwezigheid" class="table">
@@ -48,11 +48,14 @@
 			?>
 				<tr>
 					<form action="index.php?page=week" method="post" id="<?php echo $aanwezigheid['ID']; ?>">
-						<input type="text" class="hidden" value="<?php echo $_POST['jaar']; ?>" name="jaar" />
-						<input type="text" class="hidden" value="<?php echo $_POST['week']; ?>" name="week" />
-						<input type="text" class="hidden" value="<?php echo $_POST['dag']; ?>" name="dag" />
-						<input type="text" class="hidden" value="<?php echo $_POST['filter']; ?>" name="filter" />
-						<td><?php echo $aanwezigheid["voornaam"] . " " . $aanwezigheid["achternaam"]; ?><input type="text" class="hidden" name="id" value="<?php echo $aanwezigheid['ID']; ?>"></td>
+						<td>
+							<?php echo $aanwezigheid["voornaam"] . " " . $aanwezigheid["achternaam"]; ?>
+							<input type="text" class="hidden" name="id" value="<?php echo $aanwezigheid['ID']; ?>">
+							<input type="text" class="hidden" value="<?php echo $_POST['jaar']; ?>" name="jaar" />
+							<input type="text" class="hidden" value="<?php echo $_POST['week']; ?>" name="week" />
+							<input type="text" class="hidden" value="<?php echo $_POST['dag']; ?>" name="dag" />
+							<input type="text" class="hidden" value="<?php echo $_POST['filter']; ?>" name="filter" />
+						</td>
 						<td><input type="checkbox" name="dagtype" value="VM"
 						<?php if (strpos($aanwezigheid["dagtypes"], "VM") !== false): echo "checked"; endif; if (strpos($aanwezigheid["dagtypes"], "VD") !== false): echo "disabled"; endif; ?> ></td>
 						<td><input type="checkbox" name="dagtype" value="VD"
@@ -62,6 +65,7 @@
 						<td><?php echo $halvedagen ?></td>
 						<td><?php echo $volledagen ?></td>
 						<td><?php echo $halvedagen / 2 + $volledagen; ?></td>
+						<td><input type="submit" /></td>
 					</form>
 				</tr>
 		<?php endforeach; ?>
