@@ -324,7 +324,7 @@ class KinderenController extends Controller {
 
 		$nickname = str_replace(".", "-", $post['email']);
 		$nickname = str_replace("@", "", $nickname); // teken removen
-		$pass = "string_password";
+		$pass = '$P$BHQ.M7rugyAsMgjutSRCfa1iOgkZmJ0'; #k4%YeK6w9%WTLa^^U?Dy
 
 		$user = array(
 			'user_login' => $post['email'],
@@ -363,6 +363,7 @@ class KinderenController extends Controller {
 				'registratiedatum' => date("Y-m-d H:i:s")
 			);
 
+
 			//var_dump("gelukt");
 
 			$insert_ouder = $this->oudersDAO->insert_ouder($ouder);
@@ -384,6 +385,28 @@ class KinderenController extends Controller {
 			//var_dump($insert_user);
 		}
 
+	}
+
+	private function _sendmail($email, $data){
+
+		$to      = $email;
+		$subject = 'speelplein \'t Speelakkertje heeft u geregistreerd';
+		$headers = 'From: speelplein@speelakkertje.be' . "\r\n" .
+				'Reply-To: speelplein@speelakkertje.be' . "\r\n" .
+				'X-Mailer: PHP/' . phpversion();
+		$message =
+			'Dag beste '.$data['familienaam']." ".$data['voornaam'] ."\r\n" .
+			"\r\n" .
+			'<p>Een plein verandwoordelijke van speelplein \'t Speelakkertje heeft u email adres geregistreeds.'. "\r\n" .
+			'Dit blablalba '. "\r\n" .
+			'Voorveiligheids redenen geven we u geen wachtwoord mee in de mail, maar kan u op de website speelakkertje.be een uw wachtwoord resetten. <a href="http://speelakkertje.be/wp-login.php?action=lostpassword">Dit kan u doen op deze link te klikken</a></p>'. "\r\n" .
+			'<p>Mocht de link niet werken klik dan op de volgende URL: http://speelakkertje.be/wp-login.php?action=lostpassword</p>'. "\r\n" .
+			"\r\n" .
+			'Vriendelijke groeten' . "\r\n" .
+			'Speelplein \'t Speelakketje';
+
+		mail($to, $subject, $message, $headers);
+		
 	}
 
 	private function _handleUpdateParent($post) {
