@@ -208,12 +208,18 @@ class KinderenDAO extends DAO {
 	public function removeAanwezig($data) {
 		$sql = "DELETE 
 			FROM `wp_aanwezig` 
-			WHERE `kind_id` = :kind_id AND `dag` = :dag AND `week` = :week AND `jaar` = :jaar";
+			WHERE `kind_id` = :kind_id AND `dag` = :dag AND `week` = :week AND `jaar` = :jaar ";
+		if (isset($data["dagtype"])) {
+			$sql .= "AND `dagtype` = :dagtype";
+		}
 		$stmt = $this->pdo->prepare($sql);
 		$stmt->bindValue(':kind_id', $data['kind_id']);
 		$stmt->bindValue(':dag', $data['dag']);
 		$stmt->bindValue(':week', $data['week']);
 		$stmt->bindValue(':jaar', $data['jaar']);
+		if (isset($data["dagtype"])) {
+			$stmt->bindValue(':dagtype', $data['dagtype']);
+		}
 		return $stmt->execute();
 	}
 

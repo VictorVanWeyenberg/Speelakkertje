@@ -13,12 +13,15 @@ class WeekController extends Controller {
 		$this->kinderenDAO = new KinderenDAO();
 	}
 
-	private function removeAanwezigheid($post) {
+	private function removeAanwezigheid($post, $dagtype) {
 			$data = array();
 			$data["kind_id"] = $post["id"];
 			$data["dag"] = $post["dag"];
 			$data["week"] = $post["week"];
 			$data["jaar"] = $post["jaar"];
+			if (isset($dagtype)) {
+				$data["dagtype"] = $dagtype;
+			}
 			$inserted = $this->kinderenDAO->removeAanwezig($data);
 	}
 
@@ -29,22 +32,26 @@ class WeekController extends Controller {
 			$pageNumber = $_GET["pageNumber"];
 		}
 
-		if(isset($_POST["dagtype"])) {
-			$data = array();
-			$data["kind_id"] = $_POST["id"];
-			$data["dagtype"] = $_POST["dagtype"];
-			$data["dag"] = $_POST["dag"];
-			$data["week"] = $_POST["week"];
-			$data["jaar"] = $_POST["jaar"];
-			$data["registratiedatum"] = date("Y-m-d H:i:s");
-			$inserted = $this->kinderenDAO->insertAanwezig($data);
-			if (!$inserted) {
-				$this->removeAanwezigheid($_POST);
+		if (isset($_POST["id"])) {
+			if(isset($_POST["dagtype"])) {
+				$data = array();
+				$data["kind_id"] = $_POST["id"];
+				$data["dagtype"] = $_POST["dagtype"];
+				$data["dag"] = $_POST["dag"];
+				$data["week"] = $_POST["week"];
+				$data["jaar"] = $_POST["jaar"];
+				$data["registratiedatum"] = date("Y-m-d H:i:s");
+				$inserted = $this->kinderenDAO->insertAanwezig($data);
+				if (!$inserted) {
+					if ($data["dagtype"] == "VM") {
+						$this->removeAanwezigheid($_POST, "NM");
+					} else if ($data["dagtype"] == "NM") {
+						$this->removeAanwezigheid($_POST, "VM");
+					}
+				}
+			} else {
+				$this->removeAanwezigheid($_POST, null);
 			}
-		}
-
-		if (isset($_POST["id"]) && !isset($_POST["dagtype"])) {
-			$this->removeAanwezigheid($_POST);
 		}
 
 		if (isset($_POST["week"]) && isset($_POST["dag"]) && isset($_POST["jaar"])) {
