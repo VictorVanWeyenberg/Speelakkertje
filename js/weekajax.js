@@ -95,6 +95,6 @@
 	    xmlhttp.send(formData);
 	}
 
-	init();
+	window.addEventListener("load", init);
 	initAanwezigheidsLijst();
 
