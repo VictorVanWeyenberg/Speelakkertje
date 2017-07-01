@@ -3,14 +3,17 @@
 require_once WWW_ROOT . 'controller' . DS . 'Controller.php';
 
 require_once WWW_ROOT . 'dao' . DS . 'KinderenDAO.php';
+require_once WWW_ROOT . 'dao' . DS . 'WeekDAO.php';
 
 class WeekController extends Controller {
 
 	private $kinderenDAO;
+	private $weekDAO;
 	private $dag, $week, $jaar;
 
 	function __construct() {
 		$this->kinderenDAO = new KinderenDAO();
+		$this->weekDAO = new WeekDAO();
 	}
 
 	private function removeAanwezigheid($post, $dagtype) {
@@ -22,7 +25,7 @@ class WeekController extends Controller {
 			if (isset($dagtype)) {
 				$data["dagtype"] = $dagtype;
 			}
-			$inserted = $this->kinderenDAO->removeAanwezig($data);
+			$inserted = $this->weekDAO->removeAanwezig($data);
 	}
 
 	public function week() {
@@ -41,7 +44,7 @@ class WeekController extends Controller {
 				$data["week"] = $_POST["week"];
 				$data["jaar"] = $_POST["jaar"];
 				$data["registratiedatum"] = date("Y-m-d H:i:s");
-				$inserted = $this->kinderenDAO->insertAanwezig($data);
+				$inserted = $this->weekDAO->insertAanwezig($data);
 				if (!$inserted) {
 					if ($data["dagtype"] == "VM") {
 						$this->removeAanwezigheid($_POST, "NM");
@@ -65,8 +68,8 @@ class WeekController extends Controller {
 				$this->redirect("index.php");
 				exit();
 			}
-			$this->set("aanwezigheden", $this->kinderenDAO->getAanwezighedenVanWeek($_POST["dag"], $_POST["week"], $_POST["jaar"], $_POST["filter"], $pageNumber));
-			$this->set("aantalAanwezigheden", $this->kinderenDAO->getAantalAanwezighedenVanWeek($_POST["week"], $_POST["jaar"], $pageNumber));
+			$this->set("aanwezigheden", $this->weekDAO->getAanwezighedenVanWeek($_POST["dag"], $_POST["week"], $_POST["jaar"], $_POST["filter"], $pageNumber));
+			$this->set("aantalAanwezigheden", $this->weekDAO->getAantalAanwezighedenVanWeek($_POST["week"], $_POST["jaar"], $pageNumber));
 		}
 
 	}
@@ -87,12 +90,12 @@ class WeekController extends Controller {
 
 		$overzicht = 0;
 		if (isset($_GET["jaar"])) {
-			$overzicht =  $this->kinderenDAO->getTotaalOverzicht($_GET["jaar"]);
+			$overzicht =  $this->weekDAO->getTotaalOverzicht($_GET["jaar"]);
 		} else if(isset($_POST["jaar"])) {
-			$overzicht = $this->kinderenDAO->getTotaalOverzicht($_POST["jaar"]);
+			$overzicht = $this->weekDAO->getTotaalOverzicht($_POST["jaar"]);
 		} else {
 			$year = date("Y");
-			$overzicht = $this->kinderenDAO->getTotaalOverzicht($year);
+			$overzicht = $this->weekDAO->getTotaalOverzicht($year);
 		}
 
 		$bekerendOverzicht = array();
