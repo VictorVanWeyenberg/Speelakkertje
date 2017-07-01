@@ -68,6 +68,12 @@
 		var xmlhttp = new XMLHttpRequest();
 	    xmlhttp.onreadystatechange = function() {
 
+	    	while (formRow.firstChild) {
+	    		formRow.removeChild(formRow.firstChild);
+	    	}
+
+	    	formRow.innerHTML = "<td colspan='6'><center>loading</center></td>";
+
 	        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 
 	        	var newFormRow = xmlhttp.responseXML.getElementById(form.getAttribute("id")).parentNode;
@@ -89,4 +95,6 @@
 	    xmlhttp.send(formData);
 	}
 
+	init();
 	initAanwezigheidsLijst();
+
