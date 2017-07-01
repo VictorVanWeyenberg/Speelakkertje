@@ -17,6 +17,7 @@
 						</ul>
 					<div class="clearfix"></div>
 				</div>
+				<div class="x_content">
 				<form action="index.php?page=kinderen" method="POST">
 					<div class="col-md-9 col-sm-9 col-xs-12">
 						<div class="">
@@ -27,9 +28,6 @@
 						</div>
 					</div>
 				 </form>
-
-				<div class="x_content">
-
 			</div>
 		</div>
 	</div>

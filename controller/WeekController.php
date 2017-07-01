@@ -74,9 +74,13 @@ class WeekController extends Controller {
 	public function weken() {
 		if (isset($_GET["jaar"])) {
 			$this->set("overzicht", $this->kinderenDAO->getTotaalOverzicht($_GET["jaar"]));
-		} else {
+		} else { //if(isset($_POST["jaar"])) {
 			$this->set("overzicht", $this->kinderenDAO->getTotaalOverzicht($_POST["jaar"]));
 		}
+		// } else {
+		// 	$year = date("Y");
+		// 	$this->set("overzicht", $this->kinderenDAO->getTotaalOverzicht($year);
+		// }
 	}
 
 }
