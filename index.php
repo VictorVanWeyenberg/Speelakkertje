@@ -38,7 +38,7 @@ $routes = array(
             'action' => 'weken'
         ),
         'fiscaal' => array(
-           'controller' => 'kinderen',
+           'controller' => 'week',
            'action' => 'fiscaal'
         ),
 

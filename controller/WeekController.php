@@ -134,10 +134,8 @@ class WeekController extends Controller {
 		//["ID"]=> int(9) ["achternaam"]=> string(12) "Van de Velde" ["voornaam"]=> string(3) "Art" ["weken"]=> string(5) "1,3,3" ["dagen"]=> string(5) "1,1,3" ["dagtypes"]
 		$this->set("overzicht", $bekerendOverzicht);
 
-
-
-
-
+	}
+	public function fiscaal() {
 
 	}
 

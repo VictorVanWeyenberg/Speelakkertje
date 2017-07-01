@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-$user = ''; 
+$user = '';
 
 if (isset($_COOKIE['user_tHg4*t?Vrs@3K6#5J4']) && !empty($_COOKIE['user_tHg4*t?Vrs@3K6#5J4'])) {
   $user = $_COOKIE['user_tHg4*t?Vrs@3K6#5J4'];
@@ -28,7 +28,7 @@ if (isset($_COOKIE['user_tHg4*t?Vrs@3K6#5J4']) && !empty($_COOKIE['user_tHg4*t?V
     <link href="vendors/nprogress/nprogress.css" rel="stylesheet">
     <!-- iCheck -->
     <link href="vendors/iCheck/skins/flat/green.css" rel="stylesheet">
-  
+
     <!-- bootstrap-progressbar -->
     <link href="vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
     <!-- JQVMap -->
@@ -50,7 +50,7 @@ if (isset($_COOKIE['user_tHg4*t?Vrs@3K6#5J4']) && !empty($_COOKIE['user_tHg4*t?V
     <link href="css/style.css" rel="stylesheet">
   </head>
 
-  <?php 
+  <?php
     if (empty($user)):
 
       require 'dashboard/index.php';
@@ -109,8 +109,9 @@ if (isset($_COOKIE['user_tHg4*t?Vrs@3K6#5J4']) && !empty($_COOKIE['user_tHg4*t?V
                     <ul class="nav child_menu">
                       <li><a href="index.php?page=week">Aanwezigheidslijst</a></li>
                       <li><a href="index.php?page=weken&jaar=<?php echo date("Y"); ?>">Totaal Overzicht</a></li>
+                      <li><a href="index.php?page=fiscaal&jaar=<?php echo date("Y"); ?>">Fiscaale Attesten</a></li>
                     </ul>
-                  </li>                  
+                  </li>
 
                   <li><a><i class="fa fa-archive"></i> Kinderen gegevens<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
@@ -118,7 +119,7 @@ if (isset($_COOKIE['user_tHg4*t?Vrs@3K6#5J4']) && !empty($_COOKIE['user_tHg4*t?V
                       <li><a href="index.php?page=voegtoe">Kind toevoegen</a></li>
                     </ul>
                   </li>
-                 
+
                   <li><a><i class="fa fa-child"></i> Gebruikers Toevoegen <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="index.php?page=register">Gebruiker Toevoegen</a></li>
@@ -166,7 +167,7 @@ if (isset($_COOKIE['user_tHg4*t?Vrs@3K6#5J4']) && !empty($_COOKIE['user_tHg4*t?V
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    
+
                     <li><a href="index.php?page=logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                   </ul>
                 </li>
@@ -179,7 +180,7 @@ if (isset($_COOKIE['user_tHg4*t?Vrs@3K6#5J4']) && !empty($_COOKIE['user_tHg4*t?V
         <!-- page content -->
         <?php echo $content; ?>
         <!-- /page content -->
-        
+
         <!-- footer content -->
         <footer>
           <div class="pull-right">
@@ -252,7 +253,7 @@ if (isset($_COOKIE['user_tHg4*t?Vrs@3K6#5J4']) && !empty($_COOKIE['user_tHg4*t?V
     <script src="build/js/custom.min.js"></script>
     <!-- Switchery -->
     <script src="vendors/switchery/dist/switchery.min.js"></script>
-  
+
   </body>
 <?php endif; ?>
 </html>
