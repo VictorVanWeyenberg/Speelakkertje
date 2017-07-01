@@ -1,16 +1,18 @@
 
+	var mainForm, filter, dag, week, jaar;
+	var aanwezigheidsLijst;
 
-	var mainForm = document.getElementById("weekform");
-		var filter = document.getElementById("filter");
-		var dag = document.getElementById("dag");
-		var week = document.getElementById("week");
-		var jaar = document.getElementById("jaar");
+	function init() {
+		mainForm = document.getElementById("weekform");
+		filter = document.getElementById("filter");
+		dag = document.getElementById("dag");
+		week = document.getElementById("week");
+		jaar = document.getElementById("jaar");
 		filter.addEventListener("keyup", function(e) { filterName(e); });
 		dag.addEventListener("change", function(e) { filterName(e); });
 		week.addEventListener("change", function(e) { filterName(e); });
 		jaar.addEventListener("change", function(e) { filterName(e); });
-
-	var aanwezigheidsLijst;
+	}
 
 	function initAanwezigheidsLijst() {
 		filter.focus();
