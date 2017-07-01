@@ -71,15 +71,6 @@
 						<th class="center" >TOTAAL aanwezig</th>
 					</tr>
 					<?php foreach ($aanwezigheden as $aanwezigheid): ?>
-
-						<?php $volledagen = $halvedagen = 0;
-						if (!empty($aantalAanwezigheden)) {
-							if ($aantalAanwezigheden[0]["ID"] == $aanwezigheid["ID"]) {
-								$volledagen = $aantalAanwezigheden[0]["volledagen_aanwezig"];
-								$halvedagen = $aantalAanwezigheden[0]["halvedagen_aanwezig"];
-							}
-						}
-						?>
 							<tr>
 								<form action="index.php?page=week" method="post" id="<?php echo $aanwezigheid['ID']; ?>">
 									<td>
@@ -96,9 +87,9 @@
 									<?php if (strpos($aanwezigheid["dagtypes"], "VD") !== false): echo "checked"; endif; if (strpos($aanwezigheid["dagtypes"], "M") !== false): echo "disabled"; endif; ?> ></td>
 									<td class="center" ><input type="checkbox" name="dagtype" value="NM"
 									<?php if (strpos($aanwezigheid["dagtypes"], "NM") !== false): echo "checked"; endif; if (strpos($aanwezigheid["dagtypes"], "VD") !== false): echo "disabled"; endif; ?> ></td>
-									<td class="center" ><?php echo $halvedagen ?></td>
-									<td class="center" ><?php echo $volledagen ?></td>
-									<td class="center"><?php echo $halvedagen / 2 + $volledagen; ?></td>
+									<td class="center" ><?php echo $aanwezigheid['halvedagen_aanwezig']; ?></td>
+									<td class="center" ><?php echo $aanwezigheid['volledagen_aanwezig']; ?></td>
+									<td class="center"><?php echo $aanwezigheid['halvedagen_aanwezig'] / 2 + $aanwezigheid['volledagen_aanwezig']; ?></td>
 									<td><input class="hidden" type="submit" /></td>
 								</form>
 							</tr>

@@ -24,14 +24,29 @@ class WeekDAO extends DAO {
 	}
 
 	public function getAanwezighedenVanWeek($dag, $week, $jaar, $filter, $pageNumber) {
-		$sql = "SELECT wp_kinderen.ID, wp_kinderen.voornaam, wp_kinderen.achternaam, GROUP_CONCAT(wp_aanwezig.dagtype) as dagtypes, COUNT(CASE wp_aanwezig.dagtype WHEN 'VM' THEN 1 WHEN 'NM' THEN 1 END) as halvedagen_aanwezig, COUNT(CASE wp_aanwezig.dagtype WHEN 'VD' THEN 1 END) as volledagen_aanwezig
-			FROM wp_kinderen
-			LEFT JOIN wp_aanwezig ON wp_kinderen.ID = wp_aanwezig.kind_id
-			WHERE (wp_aanwezig.dag = :dag OR wp_aanwezig.dag IS NULL) AND (wp_aanwezig.week = :week OR wp_aanwezig.week IS NULL) AND (wp_aanwezig.jaar = :jaar OR wp_aanwezig.jaar IS NULL) ";
+		$sql = "SELECT 
+					wk.ID, 
+				    wk.voornaam, 
+				    wk.achternaam, 
+				    (SELECT GROUP_CONCAT(dagtype) 
+				     	FROM wp_aanwezig 
+				     	WHERE kind_id = wk.ID AND dag = :dag AND week = :week AND jaar = :jaar 
+				     	GROUP BY kind_ID) AS dagtypes, 
+				    COUNT(
+				        CASE dagtype 
+				        WHEN 'VM' THEN 1 
+				        WHEN 'NM' THEN 1 
+				        END) as halvedagen_aanwezig, 
+				    COUNT(
+				        CASE dagtype 
+				        WHEN 'VD' THEN 1 
+				        END) as volledagen_aanwezig 
+				FROM wp_kinderen AS wk 
+				LEFT JOIN wp_aanwezig ON wk.ID = wp_aanwezig.kind_id ";
 		if ($filter != "") {
-			$sql .= "AND wp_kinderen.voornaam LIKE :filter ";
+			$sql .= "AND wk.voornaam LIKE :filter ";
 		}
-		$sql .= "GROUP BY wp_kinderen.ID
+		$sql .= "GROUP BY wk.ID
 		LIMIT :pageNumber, 30";
 		$stmt = $this->pdo->prepare($sql);
 		$stmt->bindValue(":dag", $dag);
