@@ -82,7 +82,7 @@
 										<input type="text" class="hidden" value="<?php echo $_POST['filter']; ?>" name="filter" />
 									</td>
 									<td class="center" ><input type="checkbox" name="dagtype" value="VM"
-									<?php if (strpos($aanwezigheid["dagtypes"], "VM") !== false): echo "checked"; endif; if (strpos($aanwezigheid["dagtypes"], "VD") !== false || strpos($aanwezigheid["dagtypes"], "NM") !== false): echo "disabled"; endif; ?> ></td>
+									<?php if (strpos($aanwezigheid["dagtypes"], "VM") !== false): echo "checked"; endif; if (strpos($aanwezigheid["dagtypes"], "VD") !== false || (strpos($aanwezigheid["dagtypes"], "VM") === false && strpos($aanwezigheid["dagtypes"], "NM") !== false  )): echo "disabled"; endif; ?> ></td>
 									<td class="center" ><input type="checkbox" name="dagtype" value="VD"
 									<?php if (strpos($aanwezigheid["dagtypes"], "VD") !== false): echo "checked"; endif; if (strpos($aanwezigheid["dagtypes"], "M") !== false): echo "disabled"; endif; ?> ></td>
 									<td class="center" ><input type="checkbox" name="dagtype" value="NM"
@@ -93,8 +93,7 @@
 									<td><input class="hidden" type="submit" /></td>
 								</form>
 							</tr>
-					<?php endforeach; ?>
-
+					<?php endforeach; ?>			
 				</table>
 			</div>
 		</div>

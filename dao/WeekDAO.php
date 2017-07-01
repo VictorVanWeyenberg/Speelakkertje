@@ -24,27 +24,27 @@ class WeekDAO extends DAO {
 	}
 
 	public function getAanwezighedenVanWeek($dag, $week, $jaar, $filter, $pageNumber) {
-		$sql = "SELECT 
-					wk.ID, 
-				    wk.voornaam, 
-				    wk.achternaam, 
-				    (SELECT GROUP_CONCAT(dagtype) 
-				     	FROM wp_aanwezig 
-				     	WHERE kind_id = wk.ID AND dag = :dag AND week = :week AND jaar = :jaar 
-				     	GROUP BY kind_ID) AS dagtypes, 
+		$sql = "SELECT
+					wk.ID,
+				    wk.voornaam,
+				    wk.achternaam,
+				    (SELECT GROUP_CONCAT(dagtype)
+				     	FROM wp_aanwezig
+				     	WHERE kind_id = wk.ID AND dag = :dag AND week = :week AND jaar = :jaar
+				     	GROUP BY kind_ID) AS dagtypes,
 				    COUNT(
-				        CASE dagtype 
-				        WHEN 'VM' THEN 1 
-				        WHEN 'NM' THEN 1 
-				        END) as halvedagen_aanwezig, 
+				        CASE dagtype
+				        WHEN 'VM' THEN 1
+				        WHEN 'NM' THEN 1
+				        END) as halvedagen_aanwezig,
 				    COUNT(
-				        CASE dagtype 
-				        WHEN 'VD' THEN 1 
-				        END) as volledagen_aanwezig 
-				FROM wp_kinderen AS wk 
+				        CASE dagtype
+				        WHEN 'VD' THEN 1
+				        END) as volledagen_aanwezig
+				FROM wp_kinderen AS wk
 				LEFT JOIN wp_aanwezig ON wk.ID = wp_aanwezig.kind_id ";
 		if ($filter != "") {
-			$sql .= "AND wk.voornaam LIKE :filter ";
+			$sql .= "WHERE wk.voornaam LIKE :voornaam OR wk.voornaam LIKE :achternaam ";
 		}
 		$sql .= "GROUP BY wk.ID
 		LIMIT :pageNumber, 30";
@@ -53,7 +53,8 @@ class WeekDAO extends DAO {
 		$stmt->bindValue(":week", $week);
 		$stmt->bindValue(":jaar", $jaar);
 		if ($filter != "") {
-			$stmt->bindValue(":filter", "%" . $filter . "%");
+			$stmt->bindValue(":voornaam", "%" . $filter . "%");
+			$stmt->bindValue(":achternaam", "%" . $filter . "%");
 		}
 		$stmt->bindValue(":pageNumber", ($pageNumber - 1) * 30);
 		$stmt->execute();

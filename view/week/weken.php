@@ -3,34 +3,7 @@
 	<div class="col-md-12 col-sm-12 col-xs-12">
 		<div class="x_panel">
 			<div class="x_title">
-				<h2>Settings </h2>
-					<ul class="nav navbar-right panel_toolbox">
-						<li>
-							<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-						</li>
-					</ul>
-				<div class="clearfix"></div>
-			</div>
-			<div class="x_content">
-				<form action="index.php?page=weken" method="post">
-					<select name="jaar" id="jaar">
-						<?php for ($i = 2016; $i <= date("Y"); $i++): ?>
-							<option value="<?php echo $i ?>"
-								<?php if (isset($_GET["jaar"])): if($_GET["jaar"] == $i): echo "selected"; endif; endif; ?>
-								<?php if (isset($_POST["jaar"])): if($_POST["jaar"] == $i): echo "selected"; endif; endif; ?>
-							 ><?php echo $i ?></option>
-						<?php endfor; ?>
-					</select>
-					<input type="submit">
-				</form>
-		</div>
-	</div>
-</div>
-
-	<div class="col-md-12 col-sm-12 col-xs-12">
-		<div class="x_panel">
-			<div class="x_title">
-				<h2> kiezen Settings</h2>
+				<h2>Totaal Overzicht Kinderen</h2>
 					<ul class="nav navbar-right panel_toolbox">
 						<li>
 							<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -74,4 +47,32 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="col-md-12 col-sm-12 col-xs-12">
+		<div class="x_panel">
+			<div class="x_title">
+				<h2>Settings </h2>
+					<ul class="nav navbar-right panel_toolbox">
+						<li>
+							<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+						</li>
+					</ul>
+				<div class="clearfix"></div>
+			</div>
+			<div class="x_content">
+				<form action="index.php?page=weken" method="post">
+					<select name="jaar" id="jaar">
+						<?php for ($i = 2016; $i <= date("Y"); $i++): ?>
+							<option value="<?php echo $i ?>"
+								<?php if (isset($_GET["jaar"])): if($_GET["jaar"] == $i): echo "selected"; endif; endif; ?>
+								<?php if (isset($_POST["jaar"])): if($_POST["jaar"] == $i): echo "selected"; endif; endif; ?>
+							 ><?php echo $i ?></option>
+						<?php endfor; ?>
+					</select>
+					<input type="submit">
+				</form>
+		</div>
+	</div>
+</div>
+
 </section>
