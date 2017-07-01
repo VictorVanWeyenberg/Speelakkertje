@@ -72,15 +72,73 @@ class WeekController extends Controller {
 	}
 
 	public function weken() {
-		if (isset($_GET["jaar"])) {
-			$this->set("overzicht", $this->kinderenDAO->getTotaalOverzicht($_GET["jaar"]));
-		} else { //if(isset($_POST["jaar"])) {
-			$this->set("overzicht", $this->kinderenDAO->getTotaalOverzicht($_POST["jaar"]));
-		}
-		// } else {
-		// 	$year = date("Y");
-		// 	$this->set("overzicht", $this->kinderenDAO->getTotaalOverzicht($year);
+
+
+		// if (isset($_GET["jaar"])) {
+		// 	$this->set("overzicht", $this->kinderenDAO->getTotaalOverzicht($_GET["jaar"]));
+		// } else { //if(isset($_POST["jaar"])) {
+		// 	$this->set("overzicht", $this->kinderenDAO->getTotaalOverzicht($_POST["jaar"]));
 		// }
+		// // } else {
+		// // 	$year = date("Y");
+		// // 	$this->set("overzicht", $this->kinderenDAO->getTotaalOverzicht($year);
+		// // }
+
+
+		$overzicht = 0;
+		if (isset($_GET["jaar"])) {
+			$overzicht =  $this->kinderenDAO->getTotaalOverzicht($_GET["jaar"]);
+		} else if(isset($_POST["jaar"])) {
+			$overzicht = $this->kinderenDAO->getTotaalOverzicht($_POST["jaar"]);
+		} else {
+			$year = date("Y");
+			$overzicht = $this->kinderenDAO->getTotaalOverzicht($year);
+		}
+
+		$bekerendOverzicht = array();
+		foreach ($overzicht as $kind) {
+
+			$kind['week_1'] = 0;
+			$kind['week_2'] = 0;
+			$kind['week_3'] = 0;
+			$kind['week_4'] = 0;
+			$kind['week_5'] = 0;
+			$kind['TOTAAL'] = 0;
+
+			$week_pieces = explode(",", $kind['weken']);
+			foreach ($week_pieces as $week ) {
+				switch ($week) {
+					case 1:
+						$kind['week_1'] += 1;
+						break;
+					case 2:
+						$kind['week_2'] += 1;
+						break;
+					case 3:
+						$kind['week_3'] += 1;
+						break;
+					case 4:
+						$kind['week_4'] += 1;
+						break;
+					case 5:
+						$kind['week_5'] += 1;
+						break;
+					default:
+						$kind['TOTAAL'] += 1;
+						break;
+				}
+			}
+			$kind['TOTAAL'] = $kind['week_1'] + $kind['week_2'] + $kind['week_3'] + $kind['week_4'] + $kind['week_5'];
+			array_push($bekerendOverzicht, $kind);
+		}
+		//["ID"]=> int(9) ["achternaam"]=> string(12) "Van de Velde" ["voornaam"]=> string(3) "Art" ["weken"]=> string(5) "1,3,3" ["dagen"]=> string(5) "1,1,3" ["dagtypes"]
+		$this->set("overzicht", $bekerendOverzicht);
+
+
+
+
+
+
 	}
 
 }

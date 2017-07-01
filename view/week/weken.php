@@ -50,22 +50,22 @@
 						<th class="center" >TOTAAL dagen aanwezig</th>
 					</thead>
 
-					<?php if (count($overzicht) > 0): ?>
+
+					<?php if ($overzicht != 0 || !empty($overzicht)): ?>
 				    <?php foreach ($overzicht as $kind): ?>
 				      <tr>
 				        <td ><?php echo $kind["voornaam"] . " " . $kind["achternaam"]; ?></td>
-				        <?php for ($i = 1; $i < 6; $i++): ?>
-				          <td class="center">
-										<?php var_dump($kind); ?>
-				            <?php if (strpos($kind["weken"], strval($i)) !== false) { echo 'x'; } ?>
-				          </td>
-				        <?php endfor; ?>
-								<td class="center">totaal</td>
+				        <td class="center"><?php echo $kind["week_1"] ?></td>
+								<td class="center"><?php echo $kind["week_2"] ?></td>
+								<td class="center"><?php echo $kind["week_3"] ?></td>
+								<td class="center"><?php echo $kind["week_4"] ?></td>
+								<td class="center"><?php echo $kind["week_5"] ?></td>
+								<td class="center"><?php echo $kind["TOTAAL"] ?></td>
 				      </tr>
 				    <?php endforeach; ?>
 				  <?php else: ?>
-				    <tr>
-				      <td colspan="6"> Geen kinderen aanwezig. </td>
+				    <tr class="center">
+				      <td colspan="7"> Geen kinderen aanwezig. </td>
 				    </tr>
 				  <?php endif; ?>
 

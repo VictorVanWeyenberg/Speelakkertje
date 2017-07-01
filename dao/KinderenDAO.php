@@ -62,13 +62,14 @@ class KinderenDAO extends DAO {
 	}
 
 	public function getTotaalOverzicht($jaar) {
-		$sql = "SELECT wp_kinderen.ID, wp_kinderen.achternaam, wp_kinderen.voornaam, GROUP_CONCAT(wp_aanwezig.week) as weken
-			FROM wp_kinderen
-			LEFT JOIN wp_aanwezig ON wp_aanwezig.kind_id = wp_kinderen.ID
-			WHERE wp_aanwezig.jaar = :jaar
-			GROUP BY wp_kinderen.ID ";
+		$sql = "SELECT wp_kinderen.ID, wp_kinderen.achternaam, wp_kinderen.voornaam,
+						GROUP_CONCAT(wp_aanwezig.week) as weken,  GROUP_CONCAT(wp_aanwezig.dag) as dagen ,  GROUP_CONCAT(wp_aanwezig.dagtype) as dagtypes
+						FROM wp_kinderen
+						LEFT JOIN wp_aanwezig ON wp_aanwezig.kind_id = wp_kinderen.ID
+						WHERE wp_aanwezig.jaar LIKE :jaar
+						GROUP BY wp_kinderen.ID ";
 		$stmt = $this->pdo->prepare($sql);
-		$stmt->bindValue(":jaar", $jaar);
+		$stmt->bindValue(":jaar", "%".$jaar."%");
 		$stmt->execute();
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
@@ -206,8 +207,8 @@ class KinderenDAO extends DAO {
 	}
 
 	public function removeAanwezig($data) {
-		$sql = "DELETE 
-			FROM `wp_aanwezig` 
+		$sql = "DELETE
+			FROM `wp_aanwezig`
 			WHERE `kind_id` = :kind_id AND `dag` = :dag AND `week` = :week AND `jaar` = :jaar ";
 		if (isset($data["dagtype"])) {
 			$sql .= "AND `dagtype` = :dagtype";
