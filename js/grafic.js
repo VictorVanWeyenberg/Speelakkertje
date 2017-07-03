@@ -1,7 +1,6 @@
 var dom = document.getElementById("chart");
 var myChart = echarts.init(dom);
 var app = {};
-// console.log(graficData);
 option = null;
 // color = #1ABB9C
 option = {
