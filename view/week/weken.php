@@ -47,7 +47,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="col-md-12 col-sm-12 col-xs-12">
 		<div class="x_panel">
 			<div class="x_title">
@@ -61,18 +61,25 @@
 			</div>
 			<div class="x_content">
 				<form action="index.php?page=weken" method="post">
-					<select name="jaar" id="jaar">
-						<?php for ($i = 2016; $i <= date("Y"); $i++): ?>
-							<option value="<?php echo $i ?>"
-								<?php if (isset($_GET["jaar"])): if($_GET["jaar"] == $i): echo "selected"; endif; endif; ?>
-								<?php if (isset($_POST["jaar"])): if($_POST["jaar"] == $i): echo "selected"; endif; endif; ?>
-							 ><?php echo $i ?></option>
-						<?php endfor; ?>
-					</select>
-					<input type="submit">
+					<div class="form-group">
+						<label class="control-label col-md-2 col-sm-3 col-xs-12" hidden for="jaar">jaar:</label>
+							<div class="col-md-1 col-sm-3 col-xs-12">
+								<select class="form-control" name="jaar" id="jaar">
+									<?php for ($i = 2016; $i <= date("Y"); $i++): ?>
+										<option value="<?php echo $i ?>"
+											<?php if (isset($_GET["jaar"])): if($_GET["jaar"] == $i): echo "selected"; endif; endif; ?>
+											<?php if (isset($_POST["jaar"])): if($_POST["jaar"] == $i): echo "selected"; endif; endif; ?>
+										 ><?php echo $i ?></option>
+									<?php endfor; ?>
+								</select>
+							</div>
+					</div>
+
+					<button type="submit" class="btn btn-round btn-primary">Kies jaar</button>
 				</form>
 		</div>
 	</div>
 </div>
+
 
 </section>

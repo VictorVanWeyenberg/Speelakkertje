@@ -10,6 +10,19 @@ class WeekDAO extends DAO {
 		return $stmt->fetch(PDO::FETCH_ASSOC);
 	}
 
+	public function selectAanwezigheidCountFromDate($datum) {
+		$sql = "SELECT COUNT(case dagtype when 'VM' then 1 else null end) AS 'VM',
+									 COUNT(case dagtype when 'NM' then 1 else null end) AS 'NM',
+									 COUNT(case dagtype when 'VD' then 1 else null end) AS 'VD',
+									 COUNT(dagtype) AS 'TOT'
+						FROM wp_aanwezig WHERE registratiedatum like :datum";
+		$stmt = $this->pdo->prepare($sql);
+		$stmt->bindValue(':datum', $datum ."%");
+		$stmt->execute();
+		return $stmt->fetch(PDO::FETCH_ASSOC);
+	}
+
+
 	public function getTotaalOverzicht($jaar) {
 		$sql = "SELECT wp_kinderen.ID, wp_kinderen.achternaam, wp_kinderen.voornaam,
 						GROUP_CONCAT(wp_aanwezig.week) as weken,  GROUP_CONCAT(wp_aanwezig.dag) as dagen ,  GROUP_CONCAT(wp_aanwezig.dagtype) as dagtypes
@@ -30,16 +43,16 @@ class WeekDAO extends DAO {
 				    wk.achternaam,
 				    (SELECT GROUP_CONCAT(dagtype)
 				     	FROM wp_aanwezig
-				     	WHERE kind_id = wk.ID AND dag = :dag AND week = :week AND jaar = :jaar
+				     	WHERE kind_id = wk.ID AND dag = :dag AND week = :week1 AND jaar = :jaar1
 				     	GROUP BY kind_ID) AS dagtypes,
 				    COUNT(
-				        CASE dagtype
-				        WHEN 'VM' THEN 1
-				        WHEN 'NM' THEN 1
+				        CASE
+				        WHEN dagtype = 'VM' AND week = :week2 AND jaar = :jaar2 THEN 1
+				        WHEN dagtype = 'NM' AND week = :week3 AND jaar = :jaar3 THEN 1
 				        END) as halvedagen_aanwezig,
 				    COUNT(
-				        CASE dagtype
-				        WHEN 'VD' THEN 1
+				        CASE
+				        WHEN dagtype = 'VD' AND week = :week4 AND jaar = :jaar4 THEN 1
 				        END) as volledagen_aanwezig
 				FROM wp_kinderen AS wk
 				LEFT JOIN wp_aanwezig ON wk.ID = wp_aanwezig.kind_id ";
@@ -50,8 +63,10 @@ class WeekDAO extends DAO {
 		LIMIT :pageNumber, 30";
 		$stmt = $this->pdo->prepare($sql);
 		$stmt->bindValue(":dag", $dag);
-		$stmt->bindValue(":week", $week);
-		$stmt->bindValue(":jaar", $jaar);
+		for ($i = 1; $i < 5; $i++) {
+			$stmt->bindValue(":week" . $i, $week);
+			$stmt->bindValue(":jaar" . $i, $jaar);
+		}
 		if ($filter != "") {
 			$stmt->bindValue(":voornaam", "%" . $filter . "%");
 			$stmt->bindValue(":achternaam", "%" . $filter . "%");

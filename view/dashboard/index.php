@@ -2,7 +2,7 @@
 
   //login pagina
 
-  $user = ''; 
+  $user = '';
   if (isset($_COOKIE['user_tHg4*t?Vrs@3K6#5J4']) && !empty($_COOKIE['user_tHg4*t?Vrs@3K6#5J4'])) {
     $user = $_COOKIE['user_tHg4*t?Vrs@3K6#5J4'];
   }
@@ -26,11 +26,11 @@
       }
   ?>
     <div>
-  
+
     <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
-              
+
             <h1>Login</h1>
 
               <!--
@@ -46,7 +46,7 @@
               <div class="input-container text">
                   <input type="password" class="form-control" name="password" placeholder="password" required="" />
               </div>
-              
+
               <input type="submit" class="btn btn-default submit" value="log in" name="login" />
 
             </form>
@@ -54,12 +54,12 @@
 
             <div class="clearfix"></div>
             <div class="separator">
-              
+
               <div class="clearfix"></div>
               <br />
               <div>
                 <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
-                <p>&copy; <?php echo date("Y"); ?> Speelplein 't Speelakkertje - staf kinderen inschrijving panel</p>
+                <p>&copy; <?php echo date("Y"); ?> <br/>- Speelplein 't Speelakkertje -<br/> staf kinderen inschrijving panel</p>
               </div>
             </div>
           </section>

@@ -12,10 +12,11 @@
 		dag.addEventListener("change", function(e) { filterName(e); });
 		week.addEventListener("change", function(e) { filterName(e); });
 		jaar.addEventListener("change", function(e) { filterName(e); });
+		filter.focus();
 	}
 
 	function initAanwezigheidsLijst() {
-		filter.focus();
+
 		aanwezigheidsLijst = document.getElementById("aanwezigheid");
 		if (aanwezigheidsLijst != null) {
 			var forms = aanwezigheidsLijst.querySelectorAll("form");
@@ -27,6 +28,7 @@
 
 	function initCheckboxListeners(form) {
 		var elements = form.elements;
+		console.log(elements);
 		[].forEach.call(elements, function(element) {
 			if (element.type == "checkbox") {
 				element.addEventListener("change", function(e) { checkboxHandler(e); });
@@ -77,10 +79,10 @@
 	        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 
 	        	var newFormRow = xmlhttp.responseXML.getElementById(form.getAttribute("id")).parentNode;
-	        	//console.log(newFormRow);
 	        	var nextSibling = formRow.nextSibling;
 	        	var parentNode = formRow.parentNode;
 	        	parentNode.removeChild(formRow);
+
 	        	if (nextSibling == null) {
 	        		parentNode.appendChild(newFormRow);
 	        	} else {
@@ -97,4 +99,3 @@
 
 	window.addEventListener("load", init);
 	initAanwezigheidsLijst();
-

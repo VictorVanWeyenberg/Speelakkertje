@@ -20,6 +20,7 @@ if (isset($_COOKIE['user_tHg4*t?Vrs@3K6#5J4']) && !empty($_COOKIE['user_tHg4*t?V
 
     <!-- Bootstrap -->
     <link href="vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="vendors/bootstrap/dist/css/bootstrap-responsive.min" rel="stylesheet">
     <!-- bootstrap-daterangepicker -->
     <link href="vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -184,7 +185,7 @@ if (isset($_COOKIE['user_tHg4*t?Vrs@3K6#5J4']) && !empty($_COOKIE['user_tHg4*t?V
         <!-- footer content -->
         <footer>
           <div class="pull-right">
-            &copy; <?php echo date("Y"); ?> Speelplein 't Speelakkertje - staf kinderen inschrijving panel
+            Alpha v. 0.1 &copy; <?php echo date("Y"); ?> Speelplein 't Speelakkertje - staf kinderen inschrijving panel
           </div>
           <div class="clearfix"></div>
         </footer>

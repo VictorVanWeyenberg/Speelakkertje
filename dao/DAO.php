@@ -1,10 +1,15 @@
 <?php
 class DAO {
-	//private static $dbHost = "localhost";
 	private static $dbHost = "77.73.96.216";
 	private static $dbName = "jnet34_wordpress_a";
 	private static $dbUser = "wordpress_0";
 	private static $dbPass = "zk5H$2P3Mg";
+
+	// private static $dbHost = "localhost";
+	// private static $dbName = "jnet34_wordpress_b";
+	// private static $dbUser = "jnet34_staf";
+	// private static $dbPass = "zk5H$2P3Mg";
+	
 	private static $sharedPDO;
 
 	protected $pdo;

@@ -13,6 +13,20 @@ class KinderenDAO extends DAO {
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 
+	public function selectAllCount() {
+		$sql = "SELECT COUNT(voornaam) AS COUNT FROM wp_kinderen";
+		$stmt = $this->pdo->prepare($sql);
+		$stmt->execute();
+		return $stmt->fetch(PDO::FETCH_ASSOC);
+	}
+	public function selectAllCountFromDate($datum) {
+		$sql = "SELECT COUNT(voornaam) AS COUNT FROM wp_kinderen WHERE registratiedatum like :datum";
+		$stmt = $this->pdo->prepare($sql);
+		$stmt->bindValue(':datum', $datum ."%");
+		$stmt->execute();
+		return $stmt->fetch(PDO::FETCH_ASSOC);
+	}
+
 	public function selectAllThisYear() {
 		$sql = "SELECT wp_kinderen.ID, wp_kinderen.achternaam, wp_kinderen.voornaam, CASE wp_kinderen.geslacht WHEN 'm' THEN 'jongen' WHEN 'v' THEN 'meisje' END AS geslacht, geboortedatum, alleen_naar_huis, medische, tel1, tel2, wp_ouders.familienaam AS oudernaam , wp_ouders.voornaam as oudervoornaam, email, adres, postcode, stad, notities, kind_id, weken, active, wp_kinderen.registratiedatum, wp_kinderen.updatedatum
 		FROM wp_kinderen

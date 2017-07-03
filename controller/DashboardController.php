@@ -3,6 +3,8 @@
 require_once WWW_ROOT . 'controller' . DS . 'Controller.php';
 
 require_once WWW_ROOT . 'dao' . DS . 'UserDAO.php';
+require_once WWW_ROOT . 'dao' . DS . 'WeekDAO.php';
+require_once WWW_ROOT . 'dao' . DS . 'KinderenDAO.php';
 
 require_once WWW_ROOT . 'phpass' . DS . 'Phpass.php';
 
@@ -11,10 +13,14 @@ class DashboardController extends Controller {
 
 
 	private $userDAO;
+	private $weekDAO;
+	private $kinderenDAO;
 
-	function __construct() {	
+	function __construct() {
 
 		$this->userDAO = new UserDAO();
+		$this->weekDAO = new WeekDAO();
+		$this->kinderenDAO = new KinderenDAO();
 	}
 
 
@@ -27,16 +33,47 @@ class DashboardController extends Controller {
 		//setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
 		//unset($_COOKIE['user']);
 
-		
+
 		//$this->set('kinderen', $this->sponsorsDAO->selectAll());
 		//var_dump($_COOKIE);
 
 	}
 
 	public function dashboard(){
-		
-		//dashboard pagina
 
+		//dashboard pagina
+		$data = array();
+
+		$totaal = $this->kinderenDAO->selectAllCount();
+		$data['kinderen_totaal'] = $totaal['COUNT'];
+
+		//2016-07-25
+		$datum = date("Y-m-d");
+		$datum_yesterday = date("Y-m-d", time() - 60 * 60 * 24);
+
+		$register_vandaag = $this->kinderenDAO->selectAllCountFromDate($datum);
+		$register_yesterday = $this->kinderenDAO->selectAllCountFromDate($datum_yesterday);
+		$data['register_vandaag'] = $register_vandaag['COUNT'];
+		$data['register_yesterday'] = $register_yesterday['COUNT'];
+
+		$present_vandaag = $this->weekDAO->selectAanwezigheidCountFromDate($datum);
+		$present_yesterday = $this->weekDAO->selectAanwezigheidCountFromDate($datum_yesterday);
+
+		$data['present_vandaag']['vm'] = $present_vandaag['VM'];
+		$data['present_vandaag']['nm'] = $present_vandaag['NM'];
+		$data['present_vandaag']['vd'] = $present_vandaag['VD'];
+		$data['present_vandaag']['tot'] = $present_vandaag['TOT'];
+
+		$data['present_yesterday']['vm'] = $present_yesterday['VM'];
+		$data['present_yesterday']['nm'] = $present_yesterday['NM'];
+		$data['present_yesterday']['vd'] = $present_yesterday['VD'];
+		$data['present_yesterday']['tot'] = $present_yesterday['TOT'];
+
+
+
+
+
+		$this->set('data', $data);
 
 	}
 
@@ -122,7 +159,7 @@ class DashboardController extends Controller {
 					$_SESSION['info'] = "registration succesful!";
 					$this->redirect('index.php?page=dashboard');
 				}
-				
+
 			}else{
 				$_SESSION['error'] = "Gebruiker registreren is niet gelukt";
 				$this->set('errors', $errors);
@@ -142,17 +179,17 @@ class DashboardController extends Controller {
 
 			$date = $_GET['id'];
 			$user = $this->userDAO->selectByRegistratiedatum($date);
-			
+
 			if (!empty($user)) {
 
 				$this->userDAO->delete($date);
 				$_SESSION['info'] = "Delete user succesful!";
 				$this->redirect('index.php?page=dashboard');
 			}
-			
+
 
 		}
 	}
 
-	
+
 }

@@ -68,8 +68,16 @@ class WeekController extends Controller {
 				$this->redirect("index.php");
 				exit();
 			}
-			$this->set("aanwezigheden", $this->weekDAO->getAanwezighedenVanWeek($_POST["dag"], $_POST["week"], $_POST["jaar"], $_POST["filter"], $pageNumber));
-			$this->set("aantalAanwezigheden", $this->weekDAO->getAantalAanwezighedenVanWeek($_POST["week"], $_POST["jaar"], $pageNumber));
+			$aanwezigheden = $this->weekDAO->getAanwezighedenVanWeek($_POST["dag"], $_POST["week"], $_POST["jaar"], $_POST["filter"], $pageNumber);
+			$aantalAanwezigheden = $this->weekDAO->getAantalAanwezighedenVanWeek($_POST["week"], $_POST["jaar"], $pageNumber);
+
+
+			// $aanwezigheden['halvedagen_aanwezig'] = $aantalAanwezigheden['halvedagen_aanwezig'];
+			// $aanwezigheden['volledagen_aanwezig'] = $aantalAanwezigheden['volledagen_aanwezig'];
+			//var_dump($aantalAanwezigheden);
+
+			$this->set("aanwezigheden", $aanwezigheden);
+			$this->set("aantalAanwezigheden",$aantalAanwezigheden);
 		}
 
 	}

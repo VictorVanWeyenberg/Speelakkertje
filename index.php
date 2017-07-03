@@ -1,6 +1,6 @@
 <?php
-//error_reporting(E_ALL);
-//ini_set('display_errors', '1');
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 session_start();
 define('DS', DIRECTORY_SEPARATOR);
 define('WWW_ROOT', __DIR__ . DS);
@@ -9,23 +9,23 @@ $routes = array(
 
 
     'home' => array(
-        'controller' => 'dashboard',
+        'controller' => 'Dashboard',
         'action' => 'dashboard'
     ),
         'login' => array(
-            'controller' => 'dashboard',
+            'controller' => 'Dashboard',
             'action' => 'login'
             ),
         'logout' => array(
-            'controller' => 'dashboard',
+            'controller' => 'Dashboard',
             'action' => 'logout'
             ),
         'register' => array(
-            'controller' => 'dashboard',
+            'controller' => 'Dashboard',
             'action' => 'register'
             ),
         'delete' => array(
-            'controller' => 'dashboard',
+            'controller' => 'Dashboard',
             'action' => 'delete'
             ),
 
@@ -38,20 +38,20 @@ $routes = array(
             'action' => 'weken'
         ),
         'fiscaal' => array(
-           'controller' => 'week',
+           'controller' => 'Week',
            'action' => 'fiscaal'
         ),
 
     'kinderen' => array(
-       'controller' => 'kinderen',
+       'controller' => 'Kinderen',
        'action' => 'gegevens'
     ),
         'voegtoe' => array(
-           'controller' => 'kinderen',
+           'controller' => 'Kinderen',
            'action' => 'toevoegen'
         ),
         'weizig' => array(
-           'controller' => 'kinderen',
+           'controller' => 'Kinderen',
            'action' => 'weizigen'
         ),
 
