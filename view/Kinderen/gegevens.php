@@ -47,7 +47,7 @@
 					<table id="datatable" class="table table-striped table-bordered">
 						<thead>
 							<tr>
-								<th>ID</th>
+								<!-- <th>ID</th> -->
 								<th>Naam</th>
 								<th>Voornaam</th>
 								<th>Geslacht</th>
@@ -75,7 +75,7 @@
 						   foreach ($kinderen as $row):
 
 								echo '  <tr>
-								<td nowrap>' . $row["ID"] . '</td>
+								
 								<td nowrap>' . $row['achternaam'] . '</td>
 								<td nowrap>' . $row['voornaam'] . '</td>
 								<td nowrap>' . $row['geslacht'] . '</td>

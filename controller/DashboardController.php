@@ -69,11 +69,14 @@ class DashboardController extends Controller {
 		$data['present_yesterday']['vd'] = $present_yesterday['VD'];
 		$data['present_yesterday']['tot'] = $present_yesterday['TOT'];
 
-
-
-
+		$year = date('Y');
+		if (isset($_POST["jaar"])) {
+			$year = $_POST["jaar"];
+		}
+		$grafic = $this->weekDAO->selectAanwezigheidCountFromDays($year);
 
 		$this->set('data', $data);
+		$this->set('grafic', $grafic);
 
 	}
 

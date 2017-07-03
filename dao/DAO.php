@@ -9,7 +9,7 @@ class DAO {
 	// private static $dbName = "jnet34_wordpress_b";
 	// private static $dbUser = "jnet34_staf";
 	// private static $dbPass = "zk5H$2P3Mg";
-	
+
 	private static $sharedPDO;
 
 	protected $pdo;

@@ -152,22 +152,23 @@
     	</div>
     	<div class="x_content">
 
-    		<p> content van bestaand</p>
-
-			<p>zoekbalk voor ouders te zoeken</p>
 			<?php //var_dump($selectedParent) ?>
 			<form action="index.php?page=voegtoe&button=bestaand" method="POST">
 				<!-- <input type="text" name="parent" id="parent" placeholder="naam ouder" required >-->
-				<label for="parents"> ouder: </label>
-				<input list="parents" name="parents" id="answerInput" />
-				<datalist id="parents">
-					<option data-value="0">Kies ouder</option>
-					<?php foreach ($ouders as $ouder): ?>
-						<option data-value="<?php echo $ouder['user_id'] ?>" value="<?php echo $ouder['familienaam'] ?> <?php echo $ouder['voornaam'] ?>" >
-							<?php echo $ouder['familienaam'] ?> <?php echo $ouder['voornaam'] ?>
-						</option>
-					<?php endforeach; ?>
-				</datalist>
+				<div class="form-group">
+					<label class="control-label col-md-1 col-sm-3 col-xs-12" hidden for="parents">Ouder:</label>
+					<div class="col-md-2 col-sm-3 col-xs-12">
+						<input placeholder="Naam ouder" class="form-control" list="parents" name="parents" id="answerInput" />
+	 	 				<datalist id="parents">
+	 	 					<option data-value="0">Kies ouder</option>
+	 	 					<?php foreach ($ouders as $ouder): ?>
+	 	 						<option data-value="<?php echo $ouder['user_id'] ?>" value="<?php echo $ouder['familienaam'] ?> <?php echo $ouder['voornaam'] ?>" >
+	 	 							<?php echo $ouder['familienaam'] ?> <?php echo $ouder['voornaam'] ?>
+	 	 						</option>
+	 	 					<?php endforeach; ?>
+	 	 				</datalist>
+					</div>
+				</div>
 
 				<input type="hidden" name="parent" id="answerInput-hidden">
 				<!-- <input type="submit" name="ouder"> -->

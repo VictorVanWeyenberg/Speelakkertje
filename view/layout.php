@@ -20,7 +20,7 @@ if (isset($_COOKIE['user_tHg4*t?Vrs@3K6#5J4']) && !empty($_COOKIE['user_tHg4*t?V
 
     <!-- Bootstrap -->
     <link href="vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="vendors/bootstrap/dist/css/bootstrap-responsive.min" rel="stylesheet">
+    <link href="vendors/bootstrap/dist/css/bootstrap-responsive.min.css" rel="stylesheet">
     <!-- bootstrap-daterangepicker -->
     <link href="vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -59,7 +59,7 @@ if (isset($_COOKIE['user_tHg4*t?Vrs@3K6#5J4']) && !empty($_COOKIE['user_tHg4*t?V
     else:
   ?>
 
-  <body class="nav-md">
+  <body class="nav-md footer_fixed">
 
     <?php
 
@@ -110,18 +110,18 @@ if (isset($_COOKIE['user_tHg4*t?Vrs@3K6#5J4']) && !empty($_COOKIE['user_tHg4*t?V
                     <ul class="nav child_menu">
                       <li><a href="index.php?page=week">Aanwezigheidslijst</a></li>
                       <li><a href="index.php?page=weken&jaar=<?php echo date("Y"); ?>">Totaal Overzicht</a></li>
-                      <li><a href="index.php?page=fiscaal&jaar=<?php echo date("Y"); ?>">Fiscaale Attesten</a></li>
+                      <li><a href="index.php?page=fiscaal&jaar=<?php echo date("Y"); ?>">Fiscale Attesten</a></li>
                     </ul>
                   </li>
 
-                  <li><a><i class="fa fa-archive"></i> Kinderen gegevens<span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-archive"></i> Gegevens Kinderen<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="index.php?page=kinderen">Alle kinderen</a></li>
                       <li><a href="index.php?page=voegtoe">Kind toevoegen</a></li>
                     </ul>
                   </li>
 
-                  <li><a><i class="fa fa-child"></i> Gebruikers Toevoegen <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-child"></i> Staf Leden<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="index.php?page=register">Gebruiker Toevoegen</a></li>
                       <li><a href="index.php?page=delete">Gebruiker verwijderen</a></li>
@@ -183,9 +183,9 @@ if (isset($_COOKIE['user_tHg4*t?Vrs@3K6#5J4']) && !empty($_COOKIE['user_tHg4*t?V
         <!-- /page content -->
 
         <!-- footer content -->
-        <footer>
-          <div class="pull-right">
-            Alpha v. 0.1 &copy; <?php echo date("Y"); ?> Speelplein 't Speelakkertje - staf kinderen inschrijving panel
+        <footer class="footer_fixed">
+          <div class="pull-right footer_fixed">
+            Alpha v. 0.2 &copy; <?php echo date("Y"); ?> Speelplein 't Speelakkertje - staf kinderen inschrijving panel
           </div>
           <div class="clearfix"></div>
         </footer>
