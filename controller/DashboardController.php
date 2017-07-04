@@ -73,7 +73,14 @@ class DashboardController extends Controller {
 		if (isset($_POST["jaar"])) {
 			$year = $_POST["jaar"];
 		}
-		$grafic = $this->weekDAO->selectAanwezigheidCountFromDays($year);
+
+		$grafic = [];
+		$grafic_full = $this->weekDAO->selectAanwezigheidCountFromDays($year);
+		foreach ($grafic_full as $key => $value) {
+			array_push($grafic, $value);
+		}
+
+		$grafic = json_encode($grafic);
 
 		$this->set('data', $data);
 		$this->set('grafic', $grafic);

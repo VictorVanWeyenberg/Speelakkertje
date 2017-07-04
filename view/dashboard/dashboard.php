@@ -1,5 +1,7 @@
 <?php
-
+  echo "<script type=\"text/javascript\">\n";
+    echo "graficJS = ${grafic};\n";
+  echo "</script>\n";
 ?>
   <!-- page content -->
 <section class="right_col" role="main">
@@ -136,7 +138,6 @@
                        </div>
                        <button type="submit" class="btn btn-round btn-primary">Kies jaar</button>
                      </form>
-
                    </div>
 
                  </div>
