@@ -1,6 +1,11 @@
 
  console.log(graficJS);
 
+ var graficJsData = [];
+ for (var i = 0; i < graficJS.length; i++) {
+   graficJsData.push(graficJS[i]);
+ }
+ console.log(graficJsData);
   var dom = document.getElementById("chart");
   var myChart = echarts.init(dom);
   var app = {};
@@ -70,7 +75,7 @@
                  }
             },
             areaStyle: {normal: {}},
-            data:[graficJS]
+            data:graficJsData
         }
       ]
   };
