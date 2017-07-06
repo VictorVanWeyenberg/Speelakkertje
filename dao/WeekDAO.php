@@ -37,6 +37,36 @@ class WeekDAO extends DAO {
 		return $stmt->fetch(PDO::FETCH_ASSOC);
 	}
 
+	public function selectAanwezigheidCountFromDaysHalfDay($year) {
+		$sql = "SELECT ";
+			for ($i=1; $i <=5 ; $i++) {
+				for ($j=1; $j <=5 ; $j++) {
+					$sql .= "COUNT(CASE WHEN week = '".$i."' AND dag = '".$j."' AND (dagtype = 'VM' OR dagtype = 'NM') THEN 1 END) AS 'w".$i."_d".$j."', ";
+				}
+			}
+		$sql .= "COUNT(jaar) AS 'years'
+						FROM wp_aanwezig WHERE jaar = :year";
+		$stmt = $this->pdo->prepare($sql);
+		$stmt->bindValue(':year', $year);
+		$stmt->execute();
+		return $stmt->fetch(PDO::FETCH_ASSOC);
+	}
+
+	public function selectAanwezigheidCountFromDaysFullDay($year) {
+		$sql = "SELECT ";
+			for ($i=1; $i <=5 ; $i++) {
+				for ($j=1; $j <=5 ; $j++) {
+					$sql .= "COUNT(CASE WHEN week = '".$i."' AND dag = '".$j."' AND dagtype = 'VD' THEN 1 END) AS 'w".$i."_d".$j."', ";
+				}
+			}
+		$sql .= "COUNT(jaar) AS 'years'
+						FROM wp_aanwezig WHERE jaar = :year";
+		$stmt = $this->pdo->prepare($sql);
+		$stmt->bindValue(':year', $year);
+		$stmt->execute();
+		return $stmt->fetch(PDO::FETCH_ASSOC);
+	}
+
 	public function getTotaalOverzicht($jaar) {
 		$sql = "SELECT wp_kinderen.ID, wp_kinderen.achternaam, wp_kinderen.voornaam,
 						GROUP_CONCAT(wp_aanwezig.week) as weken,  GROUP_CONCAT(wp_aanwezig.dag) as dagen ,  GROUP_CONCAT(wp_aanwezig.dagtype) as dagtypes

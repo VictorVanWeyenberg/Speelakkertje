@@ -1,0 +1,117 @@
+<?php
+
+$con = mysqli_connect('localhost', 'wordpress_0', 'zk5H$2P3Mg', 'jnet34_wordpress_a');
+$sql = "SELECT wp_kinderen.ID, wp_kinderen.achternaam, wp_kinderen.voornaam, wp_kinderen.geslacht, geboortedatum, alleen_naar_huis, medische, tel1, tel2, wp_ouders.familienaam AS oudernaam , wp_ouders.voornaam as oudervoornaam, email, adres, postcode, stad, notities, kind_id, weken, active, wp_kinderen.registratiedatum, wp_kinderen.updatedatum FROM wp_kinderen LEFT JOIN wp_ouders ON wp_kinderen.user_id = wp_ouders.user_id LEFT JOIN wp_kinderen_in_weken_aanwezig ON wp_kinderen.ID = wp_kinderen_in_weken_aanwezig.kind_id WHERE actief = 1";
+$result = $con->query($sql);
+
+$kinderelijst = array();
+while ($row = $result->fetch_array(MYSQLI_ASSOC)):
+
+	if($row['geslacht'] == "m"){
+		$row['geslacht'] = "jongen";
+	}else{
+		$row['geslacht'] = "meisje";
+	};
+
+	$row['week1'] = 0;
+	$row['week2'] = 0;
+	$row['week3'] = 0;
+	$row['week4'] = 0;
+	$row['week5'] = 0;
+
+	if(!is_null($row['weken']) || !empty($row['weken'])){
+
+		//var_dump($row['ID']. "niet null");
+		$weken = json_decode($row['weken'], true);
+		//var_dump($weken);
+
+		$row['week1'] = $weken['week_1'];
+		$row['week2'] = $weken['week_2'];
+		$row['week3'] = $weken['week_3'];
+		$row['week4'] = $weken['week_4'];
+		$row['week5'] = $weken['week_5'];
+
+	}else{
+
+		$row['week1'] = 0;
+		$row['week2'] = 0;
+		$row['week3'] = 0;
+		$row['week4'] = 0;
+		$row['week5'] = 0;
+	}
+
+    $kinderelijst[] = $row;
+endwhile;
+
+mysqli_close($con);
+
+
+
+
+//var_dump($kinderelijst[]);
+$output .= '
+	<table border="1">
+		<tr>
+			<th>ID</th>
+			<th>NAAM</th>
+			<th>VOORNAAM</th>
+			<th>GESLACHT</th>
+			<th>GEBOORTEDATUM</th>
+			<th>MEDISCH!</th>
+			<th>TEL. NR. 1</th>
+			<th>TEL. NR. 2</th>
+			<th>NAAM OUDER</th>
+			<th>VOORNAAM OUDER</th>
+			<th>E-MAIL</th>
+			<th>ADRES</th>
+			<th>POSTCODE</th>
+			<th>GEMEENTE</th>
+			<th>NOTITIE</th>
+			<th></th>
+			<th>WEEK 1</th>
+			<th>WEEK 2</th>
+			<th>WEEK 3</th>
+			<th>WEEK 4</th>
+			<th>WEEK 5</th>
+			<th></th>
+			<th>REGISTRATIE DATUM</th>
+			<th>UPDATE DATUM</th>
+
+		<tr>
+   ';
+   foreach ($kinderelijst as $row):
+		$output .= '
+			<tr>
+				<td>' . $row["ID"] . '</td>
+				<td>' . $row['achternaam'] . '</td>
+		<td>' . $row['voornaam'] . '</td>
+						<td>' . $row['geslacht'] . '</td>
+						<td>' . $row['geboortedatum'] . '</td>
+						<td>' . $row['medische'] . '</td>
+						<td>' . $row['tel1'] . '</td>
+						<td>' . $row['tel2'] . '</td>
+						<td>' . $row['oudernaam'] . '</td>
+						<td>' . $row['oudervoornaam'] . '</td>
+						<td>' . $row['email'] . '</td>
+						<td>' . $row['adres'] . '</td>
+						<td>' . $row['postcode'] . '</td>
+						<td>' . $row['stad'] . '</td>
+						<td>' . $row['notities'] . '</td>
+						<td></td>
+						<td>' . $row['week1'] . '</td>
+						<td>' . $row['week2'] . '</td>
+						<td>' . $row['week3'] . '</td>
+						<td>' . $row['week4'] . '</td>
+						<td>' . $row['week5'] . '</td>
+						<td></td>
+						<td>' . $row['registratiedatum'] . '</td>
+						<td>' . $row['updatedatum'] . '</td>
+					</tr>
+				';
+		   endforeach;
+		$output .= '</table>';
+		header("Content-type: application/vnd.ms-excel");
+		header("Content-type: application/force-download");
+		header("Content-Disposition: attachment; filename=kinderelijst.xls");
+		header("Pragma: no-cache");
+		echo $output;

@@ -1,11 +1,8 @@
 
- console.log(graficJS);
+ // console.log(graficJS_HD);
+ //  console.log(graficJS_VD);
 
- var graficJsData = [];
- for (var i = 0; i < graficJS.length; i++) {
-   graficJsData.push(graficJS[i]);
- }
- console.log(graficJsData);
+ //console.log(graficJsData);
   var dom = document.getElementById("chart");
   var myChart = echarts.init(dom);
   var app = {};
@@ -25,7 +22,7 @@
           }
       },
       legend: {
-          data:['Kinderen']
+          data:['Kinderen Totaal', 'Kinderen Volle Dag', 'Kinderen Halve dag']
       },
       toolbox: {
           feature: {
@@ -57,9 +54,8 @@
       ],
       series : [
         {
-            name:'Kinderen',
+            name:'Kinderen Totaal',
             type:'line',
-            stack: '总量',
             label: {
                 normal: {
                     show: true,
@@ -75,8 +71,36 @@
                  }
             },
             areaStyle: {normal: {}},
-            data:graficJsData
-        }
+            data:graficJS
+        },
+        {
+           name:'Kinderen Volle Dag',
+           type:'line',
+           areaStyle: {normal: {}},
+           itemStyle: {
+                normal: {
+                    color: 'rgba(26, 187, 156, 0.5)',
+                    lineStyle: {        // 系列级个性化折线样式
+                        width: 2,
+                    }
+                }
+           },
+           data: graficJS_HD
+       },
+       {
+           name:'Kinderen Halve dag',
+           type:'line',
+           areaStyle: {normal: {}},
+           itemStyle: {
+                normal: {
+                    color: 'rgba(26, 187, 156, 0.5)',
+                    lineStyle: {        // 系列级个性化折线样式
+                        width: 2,
+                    }
+                }
+           },
+           data: graficJS_VD
+       }
       ]
   };
   ;

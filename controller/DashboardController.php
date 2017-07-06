@@ -79,11 +79,27 @@ class DashboardController extends Controller {
 		foreach ($grafic_full as $key => $value) {
 			array_push($grafic, $value);
 		}
-
 		$grafic = json_encode($grafic);
+
+		$grafic__HD = [];
+		$grafic_HD = $this->weekDAO->selectAanwezigheidCountFromDaysHalfDay($year);
+		foreach ($grafic_HD as $key => $value) {
+			array_push($grafic__HD, $value);
+		}
+		$grafic__HD = json_encode($grafic__HD);
+
+		$grafic__VD = [];
+		$grafic_VD = $this->weekDAO->selectAanwezigheidCountFromDaysFullDay($year);
+		foreach ($grafic_VD as $key => $value) {
+			array_push($grafic__VD, $value);
+		}
+		$grafic__VD = json_encode($grafic__VD);
+
 
 		$this->set('data', $data);
 		$this->set('grafic', $grafic);
+		$this->set('grafic_HD', $grafic__HD);
+		$this->set('grafic_VD', $grafic__VD);
 
 	}
 

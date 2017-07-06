@@ -1,8 +1,3 @@
-<?php
-  echo "<script type=\"text/javascript\">\n";
-    echo "graficJS = ${grafic};\n";
-  echo "</script>\n";
-?>
   <!-- page content -->
 <section class="right_col" role="main">
          <div>
@@ -113,7 +108,9 @@
                <div class="x_panel">
                  <div class="x_title">
                    <h2>Transaction Summary <small>Weekly progress</small></h2>
-
+                   <ul class="nav navbar-right panel_toolbox">
+                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                   </ul>
                    <div class="clearfix"></div>
                  </div>
                  <div class="x_content" style="padding: 1rem;">
@@ -145,12 +142,37 @@
              </div>
            </div>
 
+           <div class="row">
+              <div class="col-md-6 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Extra opties kinderen</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                    <p>buton vo reset</p>
+                    <p>button vo download excel???  idk xD </p>
+                  </div>
+                </div>
+
+
 </section>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts-all-3.js"></script>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+<?php
+  echo "<script type=\"text/javascript\">\n";
+    echo "graficJS = ${grafic};\n";
+    echo "graficJS_HD = ${grafic_HD};\n";
+    echo "graficJS_VD = ${grafic_VD};\n";
+  echo "</script>\n";
+?>
+<script type="text/javascript" src="vendors/echarts/echarts-all-3.js"></script>
+<script type="text/javascript" src="vendors/echarts/ecStat.min.js"></script>
+<script type="text/javascript" src="vendors/echarts/extension/dataTool.min.js"></script>
+<!-- <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script> -->
+<script type="text/javascript" src="vendors/echarts/map/js/world.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+<script type="text/javascript" src="vendors/echarts/extension/bmap.min.js"></script>
 <script type="text/javascript" src="js/grafic.js"></script>
