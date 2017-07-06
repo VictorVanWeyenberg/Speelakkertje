@@ -95,6 +95,19 @@ class DashboardController extends Controller {
 		}
 		$grafic__VD = json_encode($grafic__VD);
 
+		if (isset($_POST['resetten'])) {
+			if (isset($_POST['reset_check'])) {
+				if ($this->kinderenDAO->updateActiveToZero()) {
+					$_SESSION['info'] = "Het resetten van de kinderen is gelukt!";
+				}else {
+					$_SESSION['errors'] = 'Er is iets fout gelopen bij het resetten van de kinderen!';
+					$this->set('errors', $errors);
+				}
+			}else {
+				$errors['reset_check'] = 'De checkbox moet aangevinkt worden!';
+				$this->set('errors', $errors);
+			}
+		}
 
 		$this->set('data', $data);
 		$this->set('grafic', $grafic);

@@ -397,9 +397,9 @@ class KinderenController extends Controller {
 		$message =
 			'Dag beste '.$data['familienaam']." ".$data['voornaam'] ."\r\n" .
 			"\r\n" .
-			'<p>Een plein verandwoordelijke van speelplein \'t Speelakkertje heeft u email adres geregistreeds.'. "\r\n" .
-			'Dit blablalba '. "\r\n" .
-			'Voorveiligheids redenen geven we u geen wachtwoord mee in de mail, maar kan u op de website speelakkertje.be een uw wachtwoord resetten. <a href="http://speelakkertje.be/wp-login.php?action=lostpassword">Dit kan u doen op deze link te klikken</a></p>'. "\r\n" .
+			'<p>Een plein verantwoordelijke van speelplein \'t Speelakkertje heeft u email adres geregistreerd.'. "\r\n" .
+			'Dit voor uw kinderen te kunnen koppelen aan uw gegevens, zodat u ook uw kinderen kan weizigen en voor uw kinderen volgend jaar weer op actief te zetten.'. "\r\n" .
+			'Voor veiligheidsredenen geven we u geen wachtwoord mee in de mail, maar kan u op de website speelakkertje.be een uw wachtwoord resetten. <a href="http://speelakkertje.be/wp-login.php?action=lostpassword">Dit kan u doen op deze link te klikken</a></p>'. "\r\n" .
 			'<p>Mocht de link niet werken klik dan op de volgende URL: http://speelakkertje.be/wp-login.php?action=lostpassword</p>'. "\r\n" .
 			"\r\n" .
 			'Vriendelijke groeten' . "\r\n" .

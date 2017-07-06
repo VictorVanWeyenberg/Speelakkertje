@@ -148,6 +148,19 @@ class WeekController extends Controller {
 	}
 	public function fiscaal() {
 
+		$kinderen = $this->kinderenDAO->selectAllNames();
+		$this->set('kinderen', $kinderen);
+
+		if (!empty($_POST['parents'])) {
+			foreach ($kinderen as $kind) {
+				//var_dump($kind['voornaam']." ".$kind['achternaam']. " NEXT ". $_POST['parents']);
+				if ($_POST['parents'] == $kind['achternaam']." ".$kind['voornaam'] ) {
+					$id = $kind['ID'];
+					var_dump($id);
+				}
+			}
+		}
+
 	}
 
 }

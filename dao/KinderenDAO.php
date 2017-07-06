@@ -27,6 +27,13 @@ class KinderenDAO extends DAO {
 		return $stmt->fetch(PDO::FETCH_ASSOC);
 	}
 
+	public function selectAllNames() {
+		$sql = "SELECT `ID`, `voornaam`, `achternaam` FROM `wp_kinderen` ORDER BY `achternaam`, `voornaam`ASC";
+		$stmt = $this->pdo->prepare($sql);
+		$stmt->execute();
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+
 	public function selectAllThisYear() {
 		$sql = "SELECT wp_kinderen.ID, wp_kinderen.achternaam, wp_kinderen.voornaam, CASE wp_kinderen.geslacht WHEN 'm' THEN 'jongen' WHEN 'v' THEN 'meisje' END AS geslacht, geboortedatum, alleen_naar_huis, medische, tel1, tel2, wp_ouders.familienaam AS oudernaam , wp_ouders.voornaam as oudervoornaam, email, adres, postcode, stad, notities, kind_id, weken, active, wp_kinderen.registratiedatum, wp_kinderen.updatedatum
 		FROM wp_kinderen
@@ -184,6 +191,17 @@ class KinderenDAO extends DAO {
 			if($stmt->execute()) {
 				return $this->selectById($data['ID']);
 			}
+		}
+		var_dump($errors);
+		return false;
+	}
+
+	public function updateActiveToZero() {
+		if(empty($errors)) {
+			$sql = "UPDATE `wp_kinderen` SET	`actief` = 0 WHERE `actief` = 1 ";
+			$stmt = $this->pdo->prepare($sql);
+			$stmt->execute();
+			return true;
 		}
 		var_dump($errors);
 		return false;

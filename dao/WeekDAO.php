@@ -22,6 +22,18 @@ class WeekDAO extends DAO {
 		return $stmt->fetch(PDO::FETCH_ASSOC);
 	}
 
+	// public function selectAanwezigheidCountFromID($id) {
+	// 	$sql = "SELECT COUNT(case dagtype when 'VM' then 1 else null end) AS 'VM',
+	// 								 COUNT(case dagtype when 'NM' then 1 else null end) AS 'NM',
+	// 								 COUNT(case dagtype when 'VD' then 1 else null end) AS 'VD',
+	// 								 COUNT(dagtype) AS 'TOT'
+	// 					FROM wp_aanwezig WHERE $id = :$id";
+	// 	$stmt = $this->pdo->prepare($sql);
+	// 	$stmt->bindValue(':id', $id);
+	// 	$stmt->execute();
+	// 	return $stmt->fetch(PDO::FETCH_ASSOC);
+	// }
+
 	public function selectAanwezigheidCountFromDays($year) {
 		$sql = "SELECT ";
 			for ($i=1; $i <=5 ; $i++) {
@@ -41,7 +53,7 @@ class WeekDAO extends DAO {
 		$sql = "SELECT ";
 			for ($i=1; $i <=5 ; $i++) {
 				for ($j=1; $j <=5 ; $j++) {
-					$sql .= "COUNT(CASE WHEN week = '".$i."' AND dag = '".$j."' AND (dagtype = 'VM' OR dagtype = 'NM') THEN 1 END) AS 'w".$i."_d".$j."', ";
+					$sql .= "COUNT(CASE WHEN week = '".$i."' AND dag = '".$j."' AND (dagtype = 'VD' OR dagtype = 'NM') THEN 1 END) AS 'w".$i."_d".$j."', ";
 				}
 			}
 		$sql .= "COUNT(jaar) AS 'years'

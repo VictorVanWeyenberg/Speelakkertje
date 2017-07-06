@@ -59,7 +59,7 @@ if (isset($_COOKIE['user_tHg4*t?Vrs@3K6#5J4']) && !empty($_COOKIE['user_tHg4*t?V
     else:
   ?>
 
-  <body class="nav-md footer_fixed">
+  <body class="nav-md ">
 
     <?php
 
@@ -110,7 +110,7 @@ if (isset($_COOKIE['user_tHg4*t?Vrs@3K6#5J4']) && !empty($_COOKIE['user_tHg4*t?V
                     <ul class="nav child_menu">
                       <li><a href="index.php?page=week">Aanwezigheidslijst</a></li>
                       <li><a href="index.php?page=weken&jaar=<?php echo date("Y"); ?>">Totaal Overzicht</a></li>
-                      <li><a href="index.php?page=fiscaal&jaar=<?php echo date("Y"); ?>">Fiscale Attesten</a></li>
+                      <li><a href="index.php?page=fiscaal">Fiscale Attesten</a></li>
                     </ul>
                   </li>
 
@@ -185,7 +185,7 @@ if (isset($_COOKIE['user_tHg4*t?Vrs@3K6#5J4']) && !empty($_COOKIE['user_tHg4*t?V
         <!-- footer content -->
         <footer class="footer_fixed">
           <div class="pull-right footer_fixed">
-            Alpha v. 0.2 &copy; <?php echo date("Y"); ?> Speelplein 't Speelakkertje - staf kinderen inschrijving panel
+            Alpha v. 0.4 &copy; <?php echo date("Y"); ?> Speelplein 't Speelakkertje - staf kinderen inschrijving panel
           </div>
           <div class="clearfix"></div>
         </footer>
