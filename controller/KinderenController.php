@@ -374,25 +374,25 @@ class KinderenController extends Controller {
 			);
 
 
-			//var_dump("gelukt");
-
 			$insert_ouder = $this->oudersDAO->insert_ouder($ouder);
-			//var_dump($insert_ouder);
+
 			if(!empty($insert_ouder)) {
+
 
 				$_SESSION['info'] = 'Toevoegen van '. $post['voornaam']. " ". $post['familienaam'].' is gelukt!';
 				$_SESSION['ouder'] = $insert_ouder['user_id'];
-				//var_dump($insert_ouder);
+
+				//email sturen
+				$this->_sendmail($ouder['email'],$ouder);
+
 				$this->redirect('index.php?page=voegtoe&button=bestaand&parent='.$insert_ouder['ID']);
 			} else {
 				$errors = $this->oudersDAO->getValidationErrorsParent($ouder);
 				$this->set('errors', $errors);
 			}
-
 		} else {
 			$errors = $this->oudersDAO->getValidationErrorsUser($user);
 			$this->set('errors', $errors);
-			//var_dump($insert_user);
 		}
 
 	}
@@ -403,6 +403,7 @@ class KinderenController extends Controller {
 		$subject = 'speelplein \'t Speelakkertje heeft u geregistreerd';
 		$headers = 'From: speelplein@speelakkertje.be' . "\r\n" .
 				'Reply-To: speelplein@speelakkertje.be' . "\r\n" .
+				'Content-Type: text/html; charset=ISO-8859-1' . "\r\n".
 				'X-Mailer: PHP/' . phpversion();
 		$message =
 			'Dag beste '.$data['familienaam']." ".$data['voornaam'] ."\r\n" .
@@ -410,7 +411,7 @@ class KinderenController extends Controller {
 			'<p>Een plein verantwoordelijke van speelplein \'t Speelakkertje heeft u email adres geregistreerd.'. "\r\n" .
 			'Dit voor uw kinderen te kunnen koppelen aan uw gegevens, zodat u ook uw kinderen kan weizigen en voor uw kinderen volgend jaar weer op actief te zetten.'. "\r\n" .
 			'Voor veiligheidsredenen geven we u geen wachtwoord mee in de mail, maar kan u op de website speelakkertje.be een uw wachtwoord resetten. <a href="http://speelakkertje.be/wp-login.php?action=lostpassword">Dit kan u doen op deze link te klikken</a></p>'. "\r\n" .
-			'<p>Mocht de link niet werken klik dan op de volgende URL: http://speelakkertje.be/wp-login.php?action=lostpassword</p>'. "\r\n" .
+			'<p>Mocht de link niet werken kopieer dan de volgende URL: http://speelakkertje.be/wp-login.php?action=lostpassword</p>'. "\r\n" .
 			"\r\n" .
 			'Vriendelijke groeten' . "\r\n" .
 			'Speelplein \'t Speelakketje';
