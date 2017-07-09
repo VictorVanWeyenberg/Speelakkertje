@@ -50,19 +50,20 @@
 								<!-- <th>ID</th> -->
 								<th>Naam</th>
 								<th>Voornaam</th>
+								<th>actief</th>
 								<th>Geslacht</th>
 								<th>Geboortedatum</th>
 								<th>MEDISCH!</th>
+								<th>Notitie</th>
 								<th>Tel. 1</th>
 								<th>Tel. 2</th>
+								<th></th>
 								<th>Naan ouder</th>
 								<th>Voornaam ouder</th>
 								<th>E-mail</th>
 								<th>Adres</th>
 								<th>Postcode</th>
 								<th>Gemeente</th>
-								<th>Notitie</th>
-								<th></th>
 								<th></th>
 								<th>Registratiedatum</th>
 								<th>Updatedatum</th>
@@ -73,24 +74,29 @@
 						<tbody>
 							<?php
 						   foreach ($kinderen as $row):
+								 //var_dump($row);
+								echo '<tr>
 
-								echo '  <tr>
-								
 								<td nowrap>' . $row['achternaam'] . '</td>
-								<td nowrap>' . $row['voornaam'] . '</td>
-								<td nowrap>' . $row['geslacht'] . '</td>
+								<td nowrap>' . $row['voornaam'] . '</td>';
+									if ($row['actief'] === 1):
+										echo '<td nowrap>Is actief</td>';
+									else:
+										echo '<td nowrap><b><a href="index.php?page=zetActief&kind='. $row['ID'].'">Zet Actief</a></b></td>';
+									endif;
+							 	echo '<td nowrap>' . $row['geslacht'] . '</td>
 								<td nowrap>' . $row['geboortedatum'] . '</td>
 								<td nowrap>' . $row['medische'] . '</td>
+								<td nowrap>' . $row['notities'] . '</td>
 								<td nowrap>' . $row['tel1'] . '</td>
 								<td nowrap>' . $row['tel2'] . '</td>
+								<td><b><a href="index.php?page=weizig&kind='. $row['voornaam'] .'-'.$row['achternaam'].'">wijzig</a></b></td>
 								<td nowrap>' . $row['oudernaam'] . '</td>
 								<td nowrap>' . $row['oudervoornaam'] . '</td>
 								<td nowrap>' . $row['email'] . '</td>
 								<td nowrap>' . $row['adres'] . '</td>
 								<td nowrap>' . $row['postcode'] . '</td>
 								<td nowrap>' . $row['stad'] . '</td>
-								<td nowrap>' . $row['notities'] . '</td>
-								<td><b><a href="index.php?page=weizig&kind='. $row['voornaam'] .'-'.$row['achternaam'].'">weizig</a></b></td>
 								<td></td>
 								<td nowrap>' . $row['registratiedatum'] . '</td>
 								<td nowrap>' . $row['updatedatum'] . '</td>

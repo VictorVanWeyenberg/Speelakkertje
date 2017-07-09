@@ -63,7 +63,7 @@
 				<form action="index.php?page=weken" method="post">
 					<div class="form-group">
 						<label class="control-label col-md-2 col-sm-3 col-xs-12" hidden for="jaar">jaar:</label>
-							<div class="col-md-1 col-sm-3 col-xs-12">
+							<div class="col-md-2 col-sm-3 col-xs-12">
 								<select class="form-control" name="jaar" id="jaar">
 									<?php for ($i = 2016; $i <= date("Y"); $i++): ?>
 										<option value="<?php echo $i ?>"

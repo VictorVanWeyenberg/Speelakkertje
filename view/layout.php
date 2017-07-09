@@ -185,7 +185,7 @@ if (isset($_COOKIE['user_tHg4*t?Vrs@3K6#5J4']) && !empty($_COOKIE['user_tHg4*t?V
         <!-- footer content -->
         <footer class="footer_fixed">
           <div class="pull-right footer_fixed">
-            Alpha v. 0.4 &copy; <?php echo date("Y"); ?> Speelplein 't Speelakkertje - staf kinderen inschrijving panel
+            Alpha v. 0.5 &copy; <?php echo date("Y"); ?> Speelplein 't Speelakkertje - staf kinderen inschrijving panel
           </div>
           <div class="clearfix"></div>
         </footer>

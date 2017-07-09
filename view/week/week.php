@@ -18,7 +18,7 @@
 					<form action="index.php?page=week" id="weekform" name="weekform" method="POST">
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" hidden for="dag"> Dag:</label>
-							<div class="col-md-1 col-sm-2 col-xs-12">
+							<div class="col-md-2 col-sm-2 col-xs-12">
 								<select class="form-control" name="dag" id="dag">
 									<option value="0"> Dag </option>
 									<option value="1" <?php if (isset($_POST["dag"]) && ($_POST['dag'] == 1)): echo "selected"; endif; ?>>Maandag</option>
@@ -32,7 +32,7 @@
 
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" hidden for="week">Week:</label>
-							<div class="col-md-1 col-sm-3 col-xs-12">
+							<div class="col-md-2 col-sm-3 col-xs-12">
 							 <select class="form-control" name="week" id="week">
 								 <option value="0"> Week </option>
 								 <?php for ($i = 1; $i <= 5; $i++): ?>
@@ -44,7 +44,7 @@
 
 						<div class="form-group">
 							<label class="control-label col-md-1 col-sm-3 col-xs-12" hidden for="jaar"> Naam:</label>
-							<div class="col-md-1 col-sm-2 col-xs-12">
+							<div class="col-md-2 col-sm-2 col-xs-12">
 								<select  class="form-control" name="jaar" id="jaar">
 									<?php for ($i = 2016; $i <= date("Y"); $i++): ?>
 										<option value="<?php echo $i; ?>" <?php if (isset($_POST["jaar"])): if ($_POST["jaar"] == $i): echo "selected"; endif; else: if ($i == date("Y")): echo "selected"; endif; endif; ?> form="dag" onChange="this.form.submit()"><?php echo $i; ?></option>

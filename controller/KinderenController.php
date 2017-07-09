@@ -51,19 +51,24 @@ class KinderenController extends Controller {
 
 	}
 
+	public function zetActief(){
+		if (!empty($_GET['kind'])) {
+			//var_dump($_GET['kind']);
+			$UpdatedChild = $this->kinderenDAO->updateActiveToOneById($_GET['kind']);
+			if ($UpdatedChild) {
+				$_SESSION['info'] = 'Actief zetten gelukt!';
+				$this->redirect('index.php?page=kinderen');
+			}else{
+				$_SESSION['info'] = 'Er is iets misgelopen met het actief zetten van het kind';
+				$this->redirect('index.php?page=kinderen');
+			}
+		}
+	}
+
+
 	public function toevoegen(){
 
 		// een kind en ouder toevoegen aan de db
-
-
-		/*
-		<?php
-			$user_id = 1;
-			$password = 'HelloWorld';
-			wp_set_password( $password, $user_id );
-		?>
-		*/
-
 
 		//Kies welke button ouder of kind toevoegen
 		if (isset($_GET['button'])) {
@@ -130,26 +135,29 @@ class KinderenController extends Controller {
 
 		#region selected ouder
 		// als bestaande ouder is gekozen haal de juiste ouder uit het id
-			if (empty($_POST['parent']) && isset($_SESSION['ouder'])) { $_POST['parents'] = $_SESSION['ouder']; }
-			if (isset($_POST['parent']) && !empty($_POST['parent']) && $_POST['parent'] !== 0) {
+		//var_dump($_POST);
+		// 	var_dump($_GET);
+			// if (!empty($_POST['parent']) && !isset($_SESSION['ouder'])) { $_POST['parent'] = $_SESSION['ouder']; }
+			if ( (isset($_GET['parent']) && !empty($_GET['parent'])) || (isset($_POST['ID']) && !empty($_POST['ID'])) || (isset($_POST['parent']) && !empty($_POST['parent']) && $_POST['parent'] !== 0) ) {
 
 				//var_dump($_POST['parent']);
-				$newlySelectedParent = $this->oudersDAO->selectById($_POST['parent']);
-				//var_dump($newlySelectedParent);
-
-				if (!isset($this->selectedParent) || $this->selectedParent != $newlySelectedParent) {
-					$this->selectedParent = $newlySelectedParent;
+				if (isset($_POST['ID'])) {
+					$newlySelectedParent = $this->oudersDAO->selectByParentId($_POST['ID']);
+				}
+				if (isset($_POST['parent'])) {
+					$newlySelectedParent = $this->oudersDAO->selectByParentId($_POST['parent']);
+				}
+				if (isset($_GET['parent'])) {
+					$newlySelectedParent = $this->oudersDAO->selectByParentId($_GET['parent']);
 				}
 
-				$_SESSION['ouder'] = $newlySelectedParent['user_id'];
-				//var_dump($_SESSION);
+
 				$this->set('selectedParent', $newlySelectedParent);
 
 				// kind toevoegen via form
 				if(!empty($_POST['action']) || !empty($_POST['add'])) {
-
-					if(empty($_POST['voornaam'])) {
-						$errors['voornaam'] = 'U hebt het kind zijn of haar naam niet ingevuld.';
+					if(empty($_POST['naam'])) {
+						$errors['naam'] = 'U hebt het kind zijn of haar naam niet ingevuld.';
 					}
 					if(empty($_POST['lastname'])) {
 						$errors['lastname'] = 'U hebt het kind zijn of haar familienaam niet ingevuld.';
@@ -166,12 +174,13 @@ class KinderenController extends Controller {
 					if(empty($_POST['medische'])) {
 						$errors['medische'] = 'U hebt niet ingevuld of het kind dit jaar komt naar het speelplein.';
 					}
-					if (!empty($errors)) {
-
-						$this->_handleChild($_POST, $newlySelectedParent);
-					}else{
-						$this->set('errors', $errors);
-					}
+					//var_dump('test');
+						if (empty($errors)) {
+							$this->_handleChild($_POST, $newlySelectedParent);
+						}else{
+							$_SESSION['info'] = 'niet geslaagd';
+							$this->set('errors', $errors);
+						}
 
 				}
 
@@ -214,6 +223,7 @@ class KinderenController extends Controller {
 		$this->set('kind', $kind);
 
 		if (!empty($_POST)):
+			//var_dump($_POST);
 			if ( isset($_POST["action_update_child"]) && $_POST["action_update_child"] == "Kind Opslaan" ):
 
 				if(empty($_POST['naam'])) {
@@ -238,8 +248,8 @@ class KinderenController extends Controller {
 
 					$this->_handleUpdateChild($_POST);
 				}else{
-					var_dump($errors);
-					var_dump($_POST);
+					//var_dump($errors);
+					//var_dump($_POST);
 
 					$this->set('errors', $errors);
 				}
@@ -373,7 +383,7 @@ class KinderenController extends Controller {
 				$_SESSION['info'] = 'Toevoegen van '. $post['voornaam']. " ". $post['familienaam'].' is gelukt!';
 				$_SESSION['ouder'] = $insert_ouder['user_id'];
 				//var_dump($insert_ouder);
-				$this->redirect('index.php?page=voegtoe&button=bestaand');
+				$this->redirect('index.php?page=voegtoe&button=bestaand&parent='.$insert_ouder['ID']);
 			} else {
 				$errors = $this->oudersDAO->getValidationErrorsParent($ouder);
 				$this->set('errors', $errors);
@@ -479,15 +489,12 @@ class KinderenController extends Controller {
 			'registratiedatum' => date("Y-m-d H:i:s")
 		);
 
-		var_dump($kind);
-
 		$insert = $this->kinderenDAO->insert($kind);
-		//$insert = "good";
 		//var_dump($post);
 		if(!empty($insert)) {
 
-			$_SESSION['info'] = 'kind toevoegen bij van '. $ouder['voornaam']. " ". $ouder['familienaam'].'gelukt!';
-			if (isset($_POST['action']) && $_POST['action'] == "opslaan") {
+			$_SESSION['info'] = 'Toevoegen van '.$post['naam']. " ".$post['lastname'].' bij '. $ouder['voornaam']. " ". $ouder['familienaam'].' is gelukt!';
+			if (isset($_POST['action']) && $_POST['action'] == "Opslaan") {
 
 				//["action"]=> string(7) "Opslaan"
 				// toevoegen en alles legen ook ouder
@@ -497,7 +504,7 @@ class KinderenController extends Controller {
 
 				//["add"]
 				//toevoegen en niet ouder legen
-				$this->redirect('index.php?page=voegtoe&button=bestaand');
+				$this->redirect('index.php?page=voegtoe&button=bestaand&parent='.$ouder['ID']);
 			} else{
 
 				unset($_SESSION['ouder']);
@@ -526,7 +533,6 @@ class KinderenController extends Controller {
 		);
 
 		$insert = $this->kinderenDAO->update($kind);
-		//$insert = "good";
 		//var_dump($post);
 		if(!empty($insert)) {
 

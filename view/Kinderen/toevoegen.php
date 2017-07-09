@@ -10,7 +10,7 @@
     	<div class="x_content">
     	<form action="index.php?page=voegtoe" method="get">
     		<button type="button" onclick="location.href='index.php?page=voegtoe&button=nieuw';"    class="btn btn-round btn-primary">Kind toevoegen van een nieuwe ouder</button>
-    	  	<button type="button" onclick="location.href='index.php?page=voegtoe&button=bestaand';" class="btn btn-round btn-default">Kind toevoegen van een bestande ouder</button>
+    	  	<button type="button" onclick="location.href='index.php?page=voegtoe&button=bestaand';" class="btn btn-round btn-default">Kind toevoegen van een bestaande ouder</button>
     	</form>
     	</div>
     </div>
@@ -153,16 +153,16 @@
     	<div class="x_content">
 
 			<?php //var_dump($selectedParent) ?>
-			<form action="index.php?page=voegtoe&button=bestaand" method="POST">
+			<form action="index.php?page=voegtoe&button=bestaand&parent=<?php echo $ouder['ID'] ?>" method="POST">
 				<!-- <input type="text" name="parent" id="parent" placeholder="naam ouder" required >-->
 				<div class="form-group">
 					<label class="control-label col-md-1 col-sm-3 col-xs-12" hidden for="parents">Ouder:</label>
-					<div class="col-md-2 col-sm-3 col-xs-12">
+					<div class="col-md-3 col-sm-3 col-xs-12">
 						<input placeholder="Naam ouder" class="form-control" list="parents" name="parents" id="answerInput" />
 	 	 				<datalist id="parents">
 	 	 					<option data-value="0">Kies ouder</option>
 	 	 					<?php foreach ($ouders as $ouder): ?>
-	 	 						<option data-value="<?php echo $ouder['user_id'] ?>" value="<?php echo $ouder['familienaam'] ?> <?php echo $ouder['voornaam'] ?>" >
+	 	 						<option data-value="<?php echo $ouder['ID'] ?>" value="<?php echo $ouder['familienaam'] ?> <?php echo $ouder['voornaam'] ?>" >
 	 	 							<?php echo $ouder['familienaam'] ?> <?php echo $ouder['voornaam'] ?>
 	 	 						</option>
 	 	 					<?php endforeach; ?>
@@ -200,11 +200,13 @@
 
                 <form method="POST" action="index.php?page=voegtoe&button=bestaand&parent=<?php echo $selectedParent['ID'] ?>" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 
+									<input type="text" hidden name="user_id" value="<?php echo $selectedParent['user_id'] ?>">
+									<input type="text" hidden name="ID" value="<?php echo $selectedParent['ID'] ?>">
                   <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="naam">Voornaam kind <span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                      <input type="text" id="naam" name="naam" required="required" class="form-control col-md-7 col-xs-12">
+                      <input type="text" id="naam" name="naam" required="required" class="form-control col-md-7 col-xs-12" value="<?php if (isset($_POST['naam'])) echo $_POST['naam'] ?>">
                       <span class="error" style="color: #BA383C;"><?php if(!empty($errors['naam'])) echo "<p class=\"error\" style=\"color: #BA383C;\">{$errors['naam']}</p>";?></span>
 
                     </div>
@@ -214,7 +216,7 @@
                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="lastname">Achternaam kind<span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                      <input type="text" id="lastname" name="lastname" required="required" class="form-control col-md-7 col-xs-12">
+                      <input type="text" id="lastname" name="lastname" required="required" class="form-control col-md-7 col-xs-12" value="<?php if (isset($_POST['lastname'])) echo $_POST['lastname'] ?>">
 			               <span class="error" style="color: #BA383C;"><?php if(!empty($errors['lastname'])) echo "<p class=\"error\" style=\"color: #BA383C;\">{$errors['lastname']}</p>";?></span>
                     </div>
                   </div>
@@ -223,11 +225,11 @@
                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="geslacht">Geslacht<span class="required">*</span></label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                       <div id="geslacht" class="btn-group" data-toggle="buttons">
-                        <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                          <input type="radio" name="geslacht" value="m"> &nbsp; Jongen &nbsp;
+                        <label class="btn btn-primary <?php if (isset($_POST['geslacht']) && $_POST['geslacht'] == 'm') echo 'active'?> " data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                          <input type="radio" name="geslacht" value="m" <?php if (isset($_POST['geslacht']) && $_POST['geslacht'] == 'm') echo 'checked'?> > &nbsp; Jongen &nbsp;
                         </label>
-                        <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                          <input type="radio" name="geslacht" value="v"> Meisje
+                        <label class="btn btn-primary <?php if (isset($_POST['geslacht']) && $_POST['geslacht'] == 'v') echo 'checked'?> " data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                          <input type="radio" name="geslacht" value="v" <?php if (isset($_POST['geslacht']) && $_POST['geslacht'] == 'v') echo 'checked'?> > Meisje
                         </label>
                       </div>
                       <span class="error" style="color: #BA383C;"><?php if(!empty($errors['geslacht'])) echo "<p class=\"error\" style=\"color: #BA383C;\">{$errors['geslacht']}</p>";?></span>
@@ -238,7 +240,7 @@
                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="geboortedatum">Geboortedatum <span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                      <input id="geboortedatum" name="geboortedatum" class="date-picker form-control col-md-7 col-xs-12" data-inputmask="'mask': '99/99/9999'" placeholder="02/02/2005" required="required" type="text">
+                      <input id="geboortedatum" name="geboortedatum" class="date-picker form-control col-md-7 col-xs-12" data-inputmask="'mask': '99/99/9999'" placeholder="02/02/2005" required="required" type="text" value="<?php if (isset($_POST['geboortedatum'])) echo $_POST['geboortedatum'] ?>">
 			           <span class="error" style="color: #BA383C;"><?php if(!empty($errors['geboortedatum'])) echo "<p class=\"error\" style=\"color: #BA383C;\">{$errors['geboortedatum']}</p>";?></span>
                     </div>
                   </div>
@@ -246,7 +248,7 @@
                   <div class="form-group">
                     <label for="medische" class="control-label col-md-3 col-sm-3 col-xs-12">medische opmerkingen (verplicht of "geen")<span class="required">*</span></label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                      	<input id="medische" name="medische" class="form-control col-md-7 col-xs-12" type="text" placeholder="Noten ellergie">
+                      	<input id="medische" name="medische" class="form-control col-md-7 col-xs-12" type="text" placeholder="Noten allergie" value="<?php if (isset($_POST['medische'])) echo $_POST['medische'] ?>">
 						            <span class="error" style="color: #BA383C;"><?php if(!empty($errors['medische'])) echo "<p class=\"error\" style=\"color: #BA383C;\">{$errors['medische']}</p>";?></span>
                     </div>
                   </div>
@@ -255,8 +257,8 @@
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Komt dit jaar<span class="required">*</span></label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                       <div id="actief" class="btn-group" data-toggle="buttons">
-                        <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                          <input type="radio" name="actief" value="1"> &nbsp; Ja &nbsp;
+                        <label class="btn btn-primary active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                          <input type="radio" name="actief" checked="checked" required="required"  value="1"> &nbsp; Ja &nbsp;
                         </label>
                         <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
                           <input type="radio" name="actief" value="0"> Neen

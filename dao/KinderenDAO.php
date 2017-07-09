@@ -3,7 +3,7 @@ require_once WWW_ROOT . 'dao' . DS . 'DAO.php';
 class KinderenDAO extends DAO {
 
 	public function selectAll() {
-		$sql = "SELECT wp_kinderen.ID, wp_kinderen.achternaam, wp_kinderen.voornaam, CASE wp_kinderen.geslacht WHEN 'm' THEN 'jongen' WHEN 'v' THEN 'meisje' END AS geslacht, geboortedatum, alleen_naar_huis, medische, tel1, tel2, wp_ouders.familienaam AS oudernaam , wp_ouders.voornaam as oudervoornaam, email, adres, postcode, stad, notities, kind_id, weken, active, wp_kinderen.registratiedatum, wp_kinderen.updatedatum
+		$sql = "SELECT wp_kinderen.ID, wp_kinderen.achternaam, wp_kinderen.voornaam, CASE wp_kinderen.geslacht WHEN 'm' THEN 'jongen' WHEN 'v' THEN 'meisje' END AS geslacht, geboortedatum, alleen_naar_huis, medische, wp_kinderen.actief AS actief, tel1, tel2, wp_ouders.familienaam AS oudernaam , wp_ouders.voornaam as oudervoornaam, email, adres, postcode, stad, notities, kind_id, weken, active, wp_kinderen.registratiedatum, wp_kinderen.updatedatum
 		FROM wp_kinderen
 		LEFT JOIN wp_ouders ON wp_kinderen.user_id = wp_ouders.user_id
 		LEFT JOIN wp_kinderen_in_weken_aanwezig ON wp_kinderen.ID = wp_kinderen_in_weken_aanwezig.kind_id
@@ -35,7 +35,7 @@ class KinderenDAO extends DAO {
 	}
 
 	public function selectAllThisYear() {
-		$sql = "SELECT wp_kinderen.ID, wp_kinderen.achternaam, wp_kinderen.voornaam, CASE wp_kinderen.geslacht WHEN 'm' THEN 'jongen' WHEN 'v' THEN 'meisje' END AS geslacht, geboortedatum, alleen_naar_huis, medische, tel1, tel2, wp_ouders.familienaam AS oudernaam , wp_ouders.voornaam as oudervoornaam, email, adres, postcode, stad, notities, kind_id, weken, active, wp_kinderen.registratiedatum, wp_kinderen.updatedatum
+		$sql = "SELECT wp_kinderen.ID, wp_kinderen.achternaam, wp_kinderen.voornaam, CASE wp_kinderen.geslacht WHEN 'm' THEN 'jongen' WHEN 'v' THEN 'meisje' END AS geslacht, geboortedatum, alleen_naar_huis, medische, wp_kinderen.actief AS actief, tel1, tel2, wp_ouders.familienaam AS oudernaam , wp_ouders.voornaam as oudervoornaam, email, adres, postcode, stad, notities, kind_id, weken, active, wp_kinderen.registratiedatum, wp_kinderen.updatedatum
 		FROM wp_kinderen
 		LEFT JOIN wp_ouders ON wp_kinderen.user_id = wp_ouders.user_id
 		LEFT JOIN wp_kinderen_in_weken_aanwezig ON wp_kinderen.ID = wp_kinderen_in_weken_aanwezig.kind_id
@@ -200,6 +200,17 @@ class KinderenDAO extends DAO {
 		if(empty($errors)) {
 			$sql = "UPDATE `wp_kinderen` SET	`actief` = 0 WHERE `actief` = 1 ";
 			$stmt = $this->pdo->prepare($sql);
+			$stmt->execute();
+			return true;
+		}
+		var_dump($errors);
+		return false;
+	}
+	public function updateActiveToOneById($id) {
+		if(empty($errors)) {
+			$sql = "UPDATE `wp_kinderen` SET	`actief` = 1 WHERE `ID` = :id ";
+			$stmt = $this->pdo->prepare($sql);
+			$stmt->bindValue(':id', $id);
 			$stmt->execute();
 			return true;
 		}

@@ -54,6 +54,10 @@ $routes = array(
            'controller' => 'Kinderen',
            'action' => 'weizigen'
         ),
+        'zetActief' => array(
+           'controller' => 'Kinderen',
+           'action' => 'zetActief'
+        ),
 
 
     'old_home' => array(
