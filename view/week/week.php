@@ -94,7 +94,19 @@
 							<tr>
 								<form action="index.php?page=week" method="post" id="<?php echo $aanwezigheid['ID']; ?>">
 									<td>
-										<?php echo $aanwezigheid["voornaam"] . " " . $aanwezigheid["achternaam"]; ?>
+										<?php
+										$pieces = explode("-", $aanwezigheid['geboortedatum']);
+										$year =  $pieces[2];
+										if ((date('Y') -6) < $year ):
+											echo '<span style="color: #FDA73D;"><b>';
+										elseif ((date('Y') -6) == $year ):
+											echo '<span style="color: #71BDCF"><b>';
+										else:
+											echo '<span><b>';
+										endif;
+										echo $aanwezigheid["voornaam"] . " " . $aanwezigheid["achternaam"];
+										echo '</b><span>';
+										 ?>
 										<input type="text" class="hidden" name="id" value="<?php echo $aanwezigheid['ID']; ?>" form="<?php echo $aanwezigheid['ID']; ?>"/>
 										<input type="text" class="hidden" value="<?php echo $_POST['jaar']; ?>" name="jaar" form="<?php echo $aanwezigheid['ID']; ?>"/>
 										<input type="text" class="hidden" value="<?php echo $_POST['week']; ?>" name="week" form="<?php echo $aanwezigheid['ID']; ?>"/>
