@@ -74,18 +74,29 @@
 						<tbody>
 							<?php
 						   foreach ($kinderen as $row):
-								 //var_dump($row);
-								echo '<tr>
 
-								<td nowrap>' . $row['achternaam'] . '</td>
-								<td nowrap>' . $row['voornaam'] . '</td>';
+								 $pieces = explode("-", $row['geboortedatum']);
+								 $year =  $pieces[2];
+									echo '<tr>';
+
+									if ((date('Y') -6) < $year ):
+										echo '<td nowrap style="color: #FDA73D;"><b>' . $row['achternaam'] . '</b></td>
+													<td nowrap style="color: #FDA73D;"><b>' . $row['voornaam'] . '</b></td>';
+									elseif ((date('Y') -6) == $year ):
+										echo '<td nowrap style="color: #71BDCF"><b>' . $row['achternaam'] . '</b></td>
+													<td nowrap style="color: #71BDCF"><b>' . $row['voornaam'] . '</b></td>';
+									else:
+										echo '<td nowrap><b>' . $row['achternaam'] . '</td>
+													<td nowrap><b>' . $row['voornaam'] . '</td>';
+									endif;
+
 									if ($row['actief'] === 1):
 										echo '<td nowrap>Is actief</td>';
 									else:
 										echo '<td nowrap><b><a href="index.php?page=zetActief&kind='. $row['ID'].'">Zet Actief</a></b></td>';
 									endif;
 							 	echo '<td nowrap>' . $row['geslacht'] . '</td>
-								<td nowrap>' . $row['geboortedatum'] . '</td>
+								<td nowrap>' . $pieces[2]."-".$pieces[1]."-".$pieces[0] . '</td>
 								<td nowrap>' . $row['medische'] . '</td>
 								<td nowrap>' . $row['notities'] . '</td>
 								<td nowrap>' . $row['tel1'] . '</td>
@@ -111,3 +122,4 @@
 		</div>
 	</div>
 </section>
+
