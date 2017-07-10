@@ -95,6 +95,7 @@ class WeekDAO extends DAO {
 	public function getAanwezighedenVanWeek($dag, $week, $jaar, $filter, $pageNumber) {
 		$sql = "SELECT
 					wk.ID,
+					wk.geboortedatum,
 				    wk.voornaam,
 				    wk.achternaam,
 				    (SELECT GROUP_CONCAT(dagtype)
