@@ -114,7 +114,7 @@ class WeekDAO extends DAO {
 				FROM wp_kinderen AS wk
 				LEFT JOIN wp_aanwezig ON wk.ID = wp_aanwezig.kind_id ";
 		if ($filter != "") {
-			$sql .= "WHERE wk.voornaam LIKE :voornaam OR wk.voornaam LIKE :achternaam ";
+			$sql .= "WHERE wk.voornaam LIKE :voornaam OR wk.achternaam LIKE :achternaam ";
 		}
 		$sql .= "GROUP BY wk.ID
 		LIMIT :pageNumber, 30";
